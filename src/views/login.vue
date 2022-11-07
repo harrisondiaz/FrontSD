@@ -17,15 +17,15 @@ export default {
 
     <img class="back size position-relative start-25 withbackgound" src="/trafico-web.png">
     <h1 >Inicio de sesión</h1>
-    <div class="border border-warning">
+    <div class="border border-warning text-center">
       <div class="margen">
-      <p class="form-label ">Usuario</p>
+      <p class="form-label text-start">Usuario</p>
       <input class="form-control" >
       <br>
-      <p class="form-label">Contraseña</p>
+      <p class="form-label text-start">Contraseña</p>
       <input type="password" class="form-control">
       <br>
-      <router-link v-bind:to="'/assigature'"><b-t-n class="position-relative" phrase="Acceder"></b-t-n></router-link>
+      <router-link v-bind:to="'/assigature/'"><button class="btn btn-outline-light">Acceder </button></router-link>
       </div>
     </div>
     </div>
@@ -49,7 +49,7 @@ export default {
     background-color: transparent;
   }
   #log {
-    max-width: 1280px;
+    max-width: 50%;
     margin: 0 auto;
     padding: 2rem;
 
@@ -75,10 +75,5 @@ export default {
       place-items: center;
     }
 
-    #log {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      padding: 0 2rem;
-    }
   }
 </style>

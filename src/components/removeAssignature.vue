@@ -20,6 +20,7 @@
 <!--      <td>{{n.estado_materia}}</td>-->
       <td v-if="n.estado_materia='true'">Activo</td>
       <td v-else>Deshabilitado</td>
+      <td><button class="btn" @click="detele({cod_materia: n.cod_materia})"><img src="https://cdn-icons-png.flaticon.com/512/463/463612.png" style="width:30px;"></button></td>
     </tr>
     </tbody>
   </table>
@@ -28,6 +29,8 @@
 <script>
 
 
+
+import axios from "axios";
 
 export default {
 
@@ -48,7 +51,10 @@ export default {
         .then(console.log(this.naming));
 
   },methods:{
-
+      detele(e){
+          axios.delete('https://api-1.azurewebsites.net/materia/eliminar/'+e.cod_materia,e.cod_materia)
+              .then(datum=>console.log(datum))
+      }
   }
 }
 

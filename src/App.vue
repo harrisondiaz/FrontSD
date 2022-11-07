@@ -1,12 +1,11 @@
 <script setup>
 import Login from './views/login.vue'
 import Uni from './views/assigature.vue'
+import PxHeader from "@/components/PxHeader.vue";
 </script>
 
 <template>
-  <div class="container-fluid " >
-    <login></login>
-  </div>
+  <router-view/>
 </template>
 
 <style scoped>

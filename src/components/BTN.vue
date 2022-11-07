@@ -1,5 +1,5 @@
 <template>
-  <button role="button" class="button-name">{{ phrase }}</button>
+  <button  class="button betterbutton">Acceder</button>
 </template>
 
 <script>
@@ -7,7 +7,7 @@
 export default {
   name: 'BTN',
   props:{
-    phrase : String,
+
   }
 }
 

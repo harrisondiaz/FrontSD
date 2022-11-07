@@ -72,3 +72,24 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+:root {
+  --main-color       : #1083D6;
+  --title-color      : #2A3B47;
+  --text-color       : #697477;
+  --light-text-color : #A0A7AC;
+  --border-color     : #EFF3F5;
+  --container-color  : #FFFFFF;
+  --body-color       : #FBFBFE;
+}
+
+
+body.dark-theme {
+  --main-color       : #52A5E0;
+  --title-color      : #EFF3F5;
+  --text-color       : #C8CDD0;
+  --light-text-color : #A0A7AC;
+  --border-color     : #2A3B47;
+  --container-color  : #212E36;
+  --body-color       : #192229;
+}
