@@ -20,6 +20,9 @@ const router = createRouter({
     },{
       path: '/assignature/remove',
       component : () => import('../views/assigature_remove.vue')
+    },{
+      path: '/assignature/updata',
+      component : () => import('../views/assigature_updata.vue')
     }
   ]
 })

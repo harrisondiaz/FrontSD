@@ -13,7 +13,7 @@
               <li><hr class="dropdown-divider"></li>
               <li><router-link to="/assignature/register"><a class="dropdown-item" >Registrar</a></router-link></li>
               <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" >Modificar</a></li>
+              <li><router-link to="/assignature/updata"><a class="dropdown-item" >Modificar</a></router-link></li>
               <li><hr class="dropdown-divider"></li>
               <li><router-link to="/assignature/remove"><a class="dropdown-item" >Eliminar</a></router-link></li>
             </ul>

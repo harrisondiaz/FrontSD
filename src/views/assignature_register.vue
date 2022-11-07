@@ -55,7 +55,7 @@ export default {
           axios.post('https://api-1.azurewebsites.net/materia/registrar', this.formData)
               .then(response => console.log(response))
               .catch(error => console.log(error))
-          this.formData.cod_materia = '',
+              this.formData.cod_materia = '',
               this.formData.nombre_materia = '',
               this.formData.creditos = '',
               this.formData.cupos = '',
