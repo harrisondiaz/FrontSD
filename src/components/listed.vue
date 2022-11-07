@@ -1,6 +1,8 @@
 <template>
   <h1 class="text-center">Materias</h1>
-
+  <button class="btn btn-info position-absolute top-25 end-0" @click="download">Descargar Información</button>
+  <br>
+  <br>
   <table class="table table-dark table-bordered" >
     <thead>
     <tr>
@@ -28,6 +30,7 @@
 <script>
 
 
+ import exportXlsFile from 'export-from-json'
 
 export default {
 
@@ -48,7 +51,12 @@ export default {
         .then(console.log(this.naming));
 
   },methods:{
-
+      download(){
+        const data = this.naming;
+        const fileName = 'download';
+        const exportType = exportXlsFile.types.xls
+        exportXlsFile({data , fileName ,exportType})
+      }
   }
 }
 
