@@ -24,6 +24,7 @@
       <td v-else-if="n.tipo_documento=='CC'">CC</td>
       <td v-else>TI</td>
       <td v-if="n.estado=='A'">Activo(a)</td>
+      <td v-else-if="n.estado=='E'">Eliminado(a)</td>
       <td v-else>Desactivo(a)</td>
 
       <!--      <td>{{n.estado_materia}}</td>-->

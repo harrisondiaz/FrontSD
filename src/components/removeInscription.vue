@@ -41,7 +41,7 @@
         </div>
         <div class="modal-footer text-bg-dark">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-          <button type="button" class="btn btn-danger" data-bs-dismiss="modal" @click="detele({cod_materia: data.cod_materia})">Confirmar</button>
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal" @click="detele()">Confirmar</button>
         </div>
       </div>
     </div>
@@ -77,10 +77,11 @@ export default {
 
 
   },methods:{
-      detele(e) {
-        axios.delete('https://api-2.azurewebsites.net/inscripcion/eliminar/' + e.id_estudiante+'/'+e.id_materia)
+      detele() {
+        console.log('https://api-2.azurewebsites.net/inscripcion/eliminar/' + this.data.id_estudiante+'/'+this.data.id_materia)
+        axios.delete('https://api-2.azurewebsites.net/inscripcion/eliminar/' + this.data.id_estudiante+'/'+this.data.id_materia)
             .then(datum => console.log(datum))
-        setInterval("location.reload()",500);
+        //setInterval("location.reload()",500);
       },
       save(e){
         this.data = e

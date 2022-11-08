@@ -25,6 +25,7 @@
       <td v-else-if="n.tipo_documento=='CC'">CC</td>
       <td v-else>TI</td>
       <td v-if="n.estado=='A'">Activo(a)</td>
+      <td v-else-if="n.estado=='E'">Eliminado(a)</td>
       <td v-else>Desactivo(a)</td>
 
       <!--      <td>{{n.estado_materia}}</td>-->
@@ -56,15 +57,16 @@
                 <label class="form-label">Estado:</label>
                 <select class ="form-select" v-model="formData.estado">
                   <option selected>Seleccione una opción</option>
-                  <option value="A">Activo</option>
-                  <option value="R">Desactivo</option>
+                  <option value="A">Activo(a)</option>
+                  <option value="E" disabled>Eliminado(a)</option>
+                  <option value="R">Retirado(a)</option>
                 </select>
                 <label class="form-label">Tipo Documento:</label>
-                <select class="form-select" id="estado_materia" v-model="formData.estado_materia">
+                <select class="form-select" id="estado_materia" v-model="formData.tipo_documento">
                   <option selected>Seleccione una opción....</option>
-                  <option value='1'>Pasaporte</option>
-                  <option value='2'>CC</option>
-                  <option value='3'>TI</option>
+                  <option value="PASSPORT">Pasaporte</option>
+                  <option value='TI'>TI</option>
+                  <option value='CC'>CC</option>
                 </select>
                 <br>
               </form>
@@ -113,16 +115,25 @@ export default {
   ,created() {
 
     fetch("https://api-3-n.azurewebsites.net/estudiante/listar")
-        .then((response) => response.json())
+        .then((response) => response.json()  )
         .then(data => (this.naming = data))
         .then(console.log(this.naming));
+
 
   },methods:{
       updata() {
         console.log(this.data)
         console.log(this.formData)
+        this.formData.foto = null
+        if(this.formData.tipo_documento=='PASSAPORT'){
+          this.formData.tipo_documento=1
+        }else if(this.formData.tipo_documento=='CC'){
+          this.formData.tipo_documento= 3
+        }else {
+          this.formData.tipo_documento= 2
+        }
         if(this.formData.cod_estudiante !=='' && this.formData.nombre_estudiante !== '' && this.formData.apellido_estudiante !== '' &&  this.formData.tipo_documento !== '' && this.formData.estado !== '') {
-          axios.put('https://api-1.azurewebsites.net/materia/actualizar/' + this.data.cod_materia, this.formData)
+          axios.put('https://api-3-n.azurewebsites.net/estudiante/actualizar/' + this.data.cod_estudiante, this.formData)
               .then(data => console.log(data))
           //setInterval("location.reload()", 500);
         }else{
@@ -136,6 +147,7 @@ export default {
         this.formData.apellido_estudiante = e.apellido_estudiante;
         this.formData.tipo_documento = e.tipo_documento;
         this.formData.estado = e.estado;
+        console.log(this.formData)
       },
       filter(datum){
         console.log(datum+""+this.filterInput)
