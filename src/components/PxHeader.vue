@@ -35,13 +35,13 @@
               Estudiantes
             </a>
             <ul class="dropdown-menu dropdown-menu-dark">
-              <li><p class="dropdown-item" href="#">Ver Listado</p></li>
+              <li><router-link to="/studient"><a class="dropdown-item" >Ver Listado</a></router-link></li>
               <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="#">Registrar</a></li>
+              <li><router-link to="/studient/register"><a class="dropdown-item" >Registrar</a></router-link></li>
               <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="#">Modificar</a></li>
+              <li><router-link to="/studient/updata"><a class="dropdown-item">Modificar</a></router-link></li>
               <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="#">Eliminar</a></li>
+              <li><router-link to="/studient/remove"><a class="dropdown-item">Eliminar</a></router-link></li>
             </ul>
           </li>
         </ul>

@@ -44,7 +44,7 @@ export default {
           axios.post('https://api-2.azurewebsites.net/inscripcion/registrar', this.formData)
               .then(response => console.log(response))
               .catch(error => console.log(error))
-              this.formData.cod_materia = '',
+              this.formData.cod_materia = ''
               this.formData.cod_estudiante = ''
           document.getElementById("empty").innerHTML="<p class='text-success display-7 text-center'>Inscripcion Realizada</p>";
         }else{
