@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/login.vue'
-const name_user = ''
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
