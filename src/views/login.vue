@@ -101,7 +101,7 @@ export default {
           .then( datum =>{
             console.log(this.formLogIn)
             console.log(datum)
-            if(datum.data.msg == "Usuario fue encontrado con exito -- Bienvenido :  "+this.formLogIn.nombre_usuario){
+            if(datum.data.msg == "Usuario fue encontrado con exito"){
               //localStorage.token = datum.token;
               console.log(datum.data.getToken)
               this.$name_user = this.formLogIn.nombre_usuario
