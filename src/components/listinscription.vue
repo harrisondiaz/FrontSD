@@ -1,0 +1,73 @@
+<template>
+  <h1 class="text-center">Inscripciones</h1>
+  <p class="form-label">Busqueda(Filtro)</p>
+  <button class="btn btn-info position-absolute top-25 end-0" @click="download">Descargar Información</button>
+  <input class="form-control form-control-sm" style="width: 30%" v-model="filterInput">
+  <br>
+  <br>
+  <table class="table table-dark table-bordered" >
+    <thead>
+    <tr>
+      <th scope="col">Cod.estudiante  </th>
+      <th scope="col">Nombre del estudiante  </th>
+      <th scope="col"> Cod. materia  </th>
+      <th scope="col"> Nombre de la materia  </th>
+      <th scope="col">Fecha de  la inscripción  </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr v-show="filter(n)" v-for="n in naming" :key="n.nombre_estudiante">
+      <th scope="row">{{n.id_estudiante}}</th>
+      <th scope="row">{{n.nombre_estudiante}}</th>
+      <td>{{n.id_materia}}</td>
+      <td>{{n.nombre_materia}}</td>
+      <td>{{n.fecha_inscripcion}}</td>
+    </tr>
+    </tbody>
+  </table>
+</template>
+
+<script>
+
+
+ import exportXlsFile from 'export-from-json'
+
+export default {
+
+
+  // eslint-disable-next-line vue/multi-word-component-names
+  name: "listed",
+  data(){
+    return{
+      naming : [],
+      filterInput: ''
+    }
+
+  }
+  ,created() {
+
+    fetch("https://api-2.azurewebsites.net/inscripcion/listar")
+        .then((response) => response.json())
+        .then(data => (this.naming = data))
+        .then(console.log(this.naming));
+
+  },methods:{
+      download(){
+        const data = this.naming;
+        const fileName = 'download';
+        const exportType = exportXlsFile.types.xls
+        console.log(data)
+        exportXlsFile({data , fileName ,exportType})
+      },
+      filter(datum){
+      console.log(datum+""+this.filterInput)
+      return datum.nombre_estudiante.toLocaleLowerCase().indexOf(this.filterInput.toLocaleLowerCase()) >=0
+    }
+  }
+}
+
+</script>
+
+<style scoped>
+
+</style>

@@ -23,7 +23,7 @@
       <td>{{n.creditos}}</td>
       <td>{{n.cupos}}</td>
 <!--      <td>{{n.estado_materia}}</td>-->
-      <td v-if="n.estado_materia='true'">Activo</td>
+      <td v-if="n.estado_materia==true">Activo</td>
       <td v-else>Deshabilitado</td>
       <!--<td><button class="btn" @click="detele({cod_materia: n.cod_materia})" id="btnremove"><img src="https://cdn-icons-png.flaticon.com/512/463/463612.png" style="width:30px;"></button></td>-->
       <td><button type="button" class="btn " data-bs-toggle="modal" data-bs-target="#exampleModal" @click="save(n)"><img src="https://cdn-icons-png.flaticon.com/512/420/420140.png" style="width:30px;"></button></td>

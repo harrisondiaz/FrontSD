@@ -1,5 +1,6 @@
 <template>
   <h1 class="text-center">Materias</h1>
+  <img src="">
   <button class="btn btn-info position-absolute top-25 end-0" @click="download">Descargar Información</button>
   <br>
   <br>
@@ -20,7 +21,7 @@
       <td>{{n.creditos}}</td>
       <td>{{n.cupos}}</td>
 <!--      <td>{{n.estado_materia}}</td>-->
-      <td v-if="n.estado_materia='true'">Activo</td>
+      <td v-if="n.estado_materia==1">Activo</td>
       <td v-else>Deshabilitado</td>
     </tr>
     </tbody>
@@ -55,8 +56,10 @@ export default {
         const data = this.naming;
         const fileName = 'download';
         const exportType = exportXlsFile.types.xls
+        console.log(data)
         exportXlsFile({data , fileName ,exportType})
       }
+      
   }
 }
 

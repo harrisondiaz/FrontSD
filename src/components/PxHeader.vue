@@ -23,10 +23,11 @@
                 Inscripciones
               </a>
               <ul class="dropdown-menu dropdown-menu-dark">
-                <li><a class="dropdown-item" href="#">Ver Listado</a></li>
+                <li><router-link to="/inscription"><a class="dropdown-item">Ver Listado</a></router-link></li>
                 <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#">Registrar</a></li>
+                <li><router-link to="/inscription/register"><a class="dropdown-item" >Registrar</a></router-link></li>
                 <li><hr class="dropdown-divider"></li>
+                <li><router-link to="/inscription/remove"><a class="dropdown-item" >Eliminar</a></router-link></li>
               </ul>
             </li>
           <li class="nav-item dropdown">
