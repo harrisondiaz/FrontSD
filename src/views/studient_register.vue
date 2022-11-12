@@ -11,19 +11,22 @@
         <label class="form-label">Apellido:</label>
       <input class="form-control" id="nombre_materia" v-model="formData.apellido_estudiante" required>
       <label class="form-label">Foto:</label>
-      <input type="text" class="form-control" id="creditos" v-model="formData.foto">
+      <div class="input-group mb-3">
+        <!--<label class="input-group-text" for="inputGroupFile01">Cargar</label>-->
+        <input type="file" accept="image/*" class="form-control" >
+      </div>
       <label class="form-label">Estado:</label>
       <select class ="form-select" v-model="formData.estado" >
-        <option selected>Seleccione una opción</option>
+        <option value=0 selected>Seleccione una opción</option>
         <option value="A">Activo</option>
         <option value="R">Retirado</option>
       </select>
       <label class="form-label">Tipo Documento:</label>
       <select class="form-select" id="estado_materia" v-model="formData.tipo_documento" >
-        <option selected>Seleccione una opción....</option>
-        <option value='1'>Pasaporte</option>
-        <option value='2'>CC</option>
-        <option value='3'>TI</option>
+        <option value=0 selected>Seleccione una opción....</option>
+        <option value=1>Pasaporte</option>
+        <option value=2>CC</option>
+        <option value=3>TI</option>
       </select>
         <br>
       <button  class="btn btn-dark btn-outline-light" id="submito" >Registrar</button>
@@ -47,9 +50,9 @@ export default {
         cod_estudiante:'',
         nombre_estudiante: '',
         apellido_estudiante: '',
-        tipo_documento : '',
-        foto: null,
-        estado: ''
+        tipo_documento : 0,
+        foto: '',
+        estado: 0
       }
     }
   },

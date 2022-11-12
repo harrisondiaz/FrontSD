@@ -4,10 +4,16 @@
   <div class="card text-bg-dark" id="formulario">
     <div class="card-body">
       <form @submit.prevent="createPost"  method="post">
-      <label class="form-label">Codigo Materia:</label>
-      <input class="form-control" id="cod_materia" v-model="formData.id_materia">
+      <label class="form-label">Materia:</label>
+      <select class="form-select" id="cod_materia" v-model="formData.id_materia">
+        
+        <option @value="n.cod_materia" v-for="n in assignature">{{n.cod_materia}} - {{n.nombre_materia}}</option>
+      </select>
       <label class="form-label">Codigo Estudiante:</label>
-      <input class="form-control" id="nombre_materia" v-model="formData.id_estudiante">
+      <select class="form-select" id="cod_materia" v-model="formData.id_estudiante">
+        
+        <option @value="n.cod_materia" v-for="n in studient">{{n.cod_estudiante}} - {{n.nombre_estudiante}}</option>
+      </select>
 
         <br>
       <button  class="btn btn-dark btn-outline-light" id="submito" >Registrar</button>
@@ -26,16 +32,25 @@ export default {
   components: {PxHeader},
   data () {
     return{
+      assignature : [],
+      studient: [],
       msg : null,
       formData :{
-        id_materia:'',
-        id_estudiante: '',
+        id_materia: 0,
+        id_estudiante: 0,
         fecha_inscripcion : new Date().getFullYear()+'-'+new Date().getMonth()+'-'+new Date().getDay(),
       }
     }
   },
-  async created() {
-
+  created() {
+    fetch("https://api-1.azurewebsites.net/materia/listar")
+        .then((response) => response.json())
+        .then(data => (this.assignature = data))
+        .then(console.log(this.assignature));
+        fetch("https://api-3-n.azurewebsites.net/estudiante/listar")
+        .then((response) => response.json())
+        .then(data => (this.studient = data))
+        .then(console.log(this.studient));
   },
   methods:{
       createPost(){
