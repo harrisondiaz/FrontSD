@@ -1,8 +1,20 @@
 <template>
   <h1 class="text-center">Estudiantes</h1>
-  <p class="form-label">Busqueda(Filtro)</p>
   <button class="btn btn-info position-absolute top-25 end-0" @click="download">Descargar Información</button>
-  <input class="form-control form-control-sm" style="width: 30%" v-model="filterInput"><br>
+  <div class="input-group  mb-3" style="width: 50%;">
+    <button class="input-group-text btn btn-outline-secondary text-light">Busqueda({{filterName}})</button>
+    <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split text-light " data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="visually-hidden">Toggle Dropdown</span>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-dark">
+    <li><a class="dropdown-item" @click="definefilter('Codigo Estudiante')">Codigo Estudiante</a></li>
+    <li><a class="dropdown-item" @click="definefilter('Nombre Estudiante')">Nombre Estudiante</a></li>
+    <li><a class="dropdown-item" @click="definefilter('Apellido Estudiante')">Apellido Estudiante</a></li>
+    <li><a class="dropdown-item" @click="definefilter('Tipo de Documento')">Tipo de Documento</a></li>
+    <li><a class="dropdown-item" @click="definefilter('Estado')">Estado</a></li>
+  </ul>
+    <input class="form-control"  v-model="filterInput"><br>
+  </div>
   <br>
   <table class="table table-dark table-bordered" >
     <thead>
@@ -35,7 +47,7 @@
 </svg>
         <ul class="dropdown-menu dropdown-menu-dark">
             <li><button type="button" class="btn dropdown-item" data-bs-toggle="modal" data-bs-target="#modalupdata" @click="save(n)"><img src="https://cdn-icons-png.flaticon.com/512/420/420140.png" style="width:30px;"> Actualizar</button></li>
-            <li><button type="button" class="btn dropdown-item" data-bs-toggle="modal" data-bs-target="#modalrevome" @click="save(n)"><img src="https://cdn-icons-png.flaticon.com/512/463/463612.png" style="width:30px;"> Borrar</button></li>
+            <li><button type="button" class="btn dropdown-item" data-bs-toggle="modal" data-bs-target="#modalremove" @click="save(n)"><img src="https://cdn-icons-png.flaticon.com/512/463/463612.png" style="width:30px;"> Borrar</button></li>
           </ul>
         </td>
     </tr>
@@ -130,7 +142,9 @@ export default {
         foto: '',
         estado: ''
       },
-      filterInput : ''
+      filterInput : '',
+      filterType: 0,
+      filterName: 'Filtro'
     }
 
   }
@@ -190,7 +204,34 @@ export default {
       },
       filter(datum){
         console.log(datum+""+this.filterInput)
-        return datum.nombre_estudiante.toLocaleLowerCase().indexOf(this.filterInput.toLocaleLowerCase()) >=0
+        if(this.filterType == 1){
+            return datum.cod_estudiante==this.filterInput
+        }else if(this.filterType == 2){
+          return datum.nombre_estudiante.toLocaleLowerCase().indexOf(this.filterInput.toLocaleLowerCase()) >=0
+        }else if(this.filterType == 3){
+          return datum.apellido_estudiante.toLocaleLowerCase().indexOf(this.filterInput.toLocaleLowerCase()) >=0
+        }else if(this.filterType == 4){
+          return datum.tipo_documento.toLocaleLowerCase().indexOf(this.filterInput.toLocaleLowerCase()) >=0
+        }else{
+          return datum.estado.toLocaleLowerCase().indexOf(this.filterInput.toLocaleLowerCase()) >=0
+        }
+      },definefilter(type){
+        if(type == "Codigo Estudiante"){
+            this.filterType = 1
+            this.filterName = type
+          }else if(type == "Nombre Estudiante"){
+            this.filterType = 2
+            this.filterName = type
+          }else if(type == "Apellido Estudiante"){
+            this.filterType = 3
+            this.filterName = type
+          }else if(type == "Tipo de Documento"){
+            this.filterType = 4
+            this.filterName = type
+          }else{
+            this.filterType = 5
+            this.filterName = type
+        }
       }
       
   }
