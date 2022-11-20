@@ -1,7 +1,11 @@
 <template>
   <h1 class="text-center">Estudiantes</h1>
-  <button class="btn btn-info position-absolute top-25 end-0" @click="download">Descargar Información</button>
-  <div class="input-group  mb-3" style="width: 50%;">
+  <button class="download-button position-absolute top-25 end-0"   style="background-color: transparent">
+    <div class="docs"><svg class="css-i6dzq1" stroke-linejoin="round" stroke-linecap="round" fill="none" stroke-width="2" stroke="currentColor" height="20" width="20" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line y2="13" x2="8" y1="13" x1="16"></line><line y2="17" x2="8" y1="17" x1="16"></line><polyline points="10 9 9 9 8 9"></polyline></svg> Docs</div>
+    <div class="download" role="button" @click="download">
+      <svg class="css-i6dzq1" stroke-linejoin="round" stroke-linecap="round" fill="none" stroke-width="2" stroke="currentColor" height="24" width="24" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line y2="3" x2="12" y1="15" x1="12"></line></svg>
+    </div>
+  </button><div class="input-group  mb-3" style="width: 50%;">
     <button class="input-group-text btn btn-outline-secondary text-light">Busqueda({{filterName}})</button>
     <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split text-light " data-bs-toggle="dropdown" aria-expanded="false">
     <span class="visually-hidden">Toggle Dropdown</span>
@@ -29,8 +33,8 @@
     </tr>
     </thead>
     <tbody>
-    <tr v-show="filter(n)"  v-for="n in naming" :key="n.cod_estudiante">
-      <th scope="row">{{n.cod_estudiante}}</th>
+    <tr v-show="filter(n)"  v-for="n in naming" :key="n.id_estudiante">
+      <th scope="row">{{n.id_estudiante}}</th>
       <td>{{n.nombre_estudiante}}</td>
       <td>{{n.apellido_estudiante}}</td>
       <td v-if="n.tipo_documento=='PASSPORT'">Pasaporte</td>
@@ -66,7 +70,7 @@
             <div class="card-body">
               <form @submit.prevent="createPost"  method="post">
                 <label class="form-label">Codigo:</label>
-                <input class="form-control" id="cod_materia" v-model="formData.cod_estudiante" disabled>
+                <input class="form-control" id="cod_materia" v-model="formData.id_estudiante" disabled>
                 <label class="form-label">Nombre:</label>
                 <input class="form-control" id="nombre_materia" v-model="formData.nombre_estudiante">
                 <label class="form-label">Apellido:</label>
@@ -124,6 +128,7 @@
 
 
  import exportXlsFile from 'export-from-json'
+ import axios from "axios";
 
 export default {
 
@@ -135,7 +140,7 @@ export default {
       naming : [],
       data: null,
       formData :{
-        cod_estudiante:'',
+        id_estudiante:'',
         nombre_estudiante: '',
         apellido_estudiante: '',
         tipo_documento : 0,
@@ -150,7 +155,7 @@ export default {
   }
   ,created() {
 
-    fetch("https://api-3-n.azurewebsites.net/estudiante/listar")
+    fetch(this.baseURL+"/estudiante/listar")
         .then((response) => response.json())
         .then(data => (this.naming = data))
 
@@ -178,8 +183,8 @@ export default {
         }else {
           this.formData.tipo_documento= 2
         }
-        if(this.formData.cod_estudiante !=='' && this.formData.nombre_estudiante !== '' && this.formData.apellido_estudiante !== '' &&  this.formData.tipo_documento !== '' && this.formData.estado !== '') {
-          axios.put('https://api-3-n.azurewebsites.net/estudiante/actualizar/' + this.data.cod_estudiante, this.formData)
+        if(this.formData.id_estudiante !=='' && this.formData.nombre_estudiante !== '' && this.formData.apellido_estudiante !== '' &&  this.formData.tipo_documento !== '' && this.formData.estado !== '') {
+          axios.put(this.baseURL+'/estudiante/actualizar/' + this.data.id_estudiante, this.formData)
               .then(data => console.log(data))
           setInterval("location.reload()", 500);
         }else{
@@ -187,15 +192,15 @@ export default {
         }
       },detele() {
         console.log(this.data)
-        console.log(this.data.cod_estudiante)
-        console.log('https://api-3-n.azurewebsites.net/estudiante/eliminar/' + this.data.cod_estudiante)
-        axios.delete('https://api-3-n.azurewebsites.net/estudiante/eliminar/' + this.data.cod_estudiante)
+        console.log(this.data.id_estudiante)
+        console.log(this.baseURL+'/estudiante/eliminar/' + this.data.id_estudiante)
+        axios.delete(this.baseURL+'/estudiante/eliminar/' + this.data.id_estudiante)
             .then(datum => console.log(datum))
         setInterval("location.reload()",500);
       },
       save(e){
         this.data = e
-        this.formData.cod_estudiante = e.cod_estudiante;
+        this.formData.id_estudiante = e.id_estudiante;
         this.formData.nombre_estudiante = e.nombre_estudiante;
         this.formData.apellido_estudiante = e.apellido_estudiante;
         this.formData.tipo_documento = e.tipo_documento;
@@ -205,15 +210,17 @@ export default {
       filter(datum){
         console.log(datum+""+this.filterInput)
         if(this.filterType == 1){
-            return datum.cod_estudiante==this.filterInput
+            return datum.id_estudiante.toString().indexOf(this.filterInput.toString())
         }else if(this.filterType == 2){
           return datum.nombre_estudiante.toLocaleLowerCase().indexOf(this.filterInput.toLocaleLowerCase()) >=0
         }else if(this.filterType == 3){
           return datum.apellido_estudiante.toLocaleLowerCase().indexOf(this.filterInput.toLocaleLowerCase()) >=0
         }else if(this.filterType == 4){
           return datum.tipo_documento.toLocaleLowerCase().indexOf(this.filterInput.toLocaleLowerCase()) >=0
-        }else{
+        }else if(this.filterType == 5){
           return datum.estado.toLocaleLowerCase().indexOf(this.filterInput.toLocaleLowerCase()) >=0
+        }else {
+          return true;
         }
       },definefilter(type){
         if(type == "Codigo Estudiante"){

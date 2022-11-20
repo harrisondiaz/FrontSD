@@ -48,6 +48,7 @@ export default {
       msg : null,
       formData :{
         cod_estudiante:'',
+        id_estudiante: this.cod_estudiante,
         nombre_estudiante: '',
         apellido_estudiante: '',
         tipo_documento : 0,
@@ -63,7 +64,7 @@ export default {
       createPost(){
         // eslint-disable-next-line no-constant-condition
         if(this.formData.cod_estudiante !=='' && this.formData.nombre_estudiante !== '' && this.formData.apellido_estudiante !== '' &&  this.formData.tipo_documento !== '' && this.formData.estado !== '') {
-          axios.post('https://api-3-n.azurewebsites.net/estudiante/registrar', this.formData)
+          axios.post(this.baseURL+'/estudiante/registrar', this.formData)
             .then(data => console.log(data))
           this.formData.cod_estudiante = ''
           this.formData.nombre_estudiante = ''

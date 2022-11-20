@@ -5,9 +5,15 @@
       <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <router-link  to="/assignature/view">
-              <a class="nav-link text-light" aria-current="page" >Materias</a>
-            </router-link>
+            <a class="nav-link dropdown-toggle text-light"  role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Materias
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark">
+              <li><router-link to="/assignature/view"><a class="dropdown-item">Ver Listado</a></router-link></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><router-link to="/assignature/register"><a class="dropdown-item" >Registrar</a></router-link></li>
+
+            </ul>
           
           </li>
             <li class="nav-item dropdown">

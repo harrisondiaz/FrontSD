@@ -1,19 +1,32 @@
 <template>
   <h1 class="text-center">Materias</h1>
-  <div class="col-auto">
-  <p class="form-label">Busqueda(Filtro)</p>
-  <button class="btn btn-info position-absolute top-25 end-0" @click="download">Descargar Información  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cloud-download " viewBox="0 0 16 16">
-  <path d="M4.406 1.342A5.53 5.53 0 0 1 8 0c2.69 0 4.923 2 5.166 4.579C14.758 4.804 16 6.137 16 7.773 16 9.569 14.502 11 12.687 11H10a.5.5 0 0 1 0-1h2.688C13.979 10 15 8.988 15 7.773c0-1.216-1.02-2.228-2.313-2.228h-.5v-.5C12.188 2.825 10.328 1 8 1a4.53 4.53 0 0 0-2.941 1.1c-.757.652-1.153 1.438-1.153 2.055v.448l-.445.049C2.064 4.805 1 5.952 1 7.318 1 8.785 2.23 10 3.781 10H6a.5.5 0 0 1 0 1H3.781C1.708 11 0 9.366 0 7.318c0-1.763 1.266-3.223 2.942-3.593.143-.863.698-1.723 1.464-2.383z"/>
-  <path d="M7.646 15.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 14.293V5.5a.5.5 0 0 0-1 0v8.793l-2.146-2.147a.5.5 0 0 0-.708.708l3 3z"/>
-</svg></button>
-  <input class="form-control form-control-sm" style="width: 30%" v-model="filterInput">
+ <button class="download-button position-absolute top-25 end-0"   style="background-color: transparent">
+    <div class="docs"><svg class="css-i6dzq1" stroke-linejoin="round" stroke-linecap="round" fill="none" stroke-width="2" stroke="currentColor" height="20" width="20" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line y2="13" x2="8" y1="13" x1="16"></line><line y2="17" x2="8" y1="17" x1="16"></line><polyline points="10 9 9 9 8 9"></polyline></svg> Docs</div>
+    <div class="download" role="button" @click="download">
+      <svg class="css-i6dzq1" stroke-linejoin="round" stroke-linecap="round" fill="none" stroke-width="2" stroke="currentColor" height="24" width="24" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line y2="3" x2="12" y1="15" x1="12"></line></svg>
+    </div>
+  </button>
+  <div class="input-group  mb-3" style="width: 50%;">
+    <button class="input-group-text btn btn-outline-secondary text-light">Busqueda({{filterName}})</button>
+    <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split text-light " data-bs-toggle="dropdown" aria-expanded="false">
+      <span class="visually-hidden">Toggle Dropdown</span>
+    </button>
+    <ul class="dropdown-menu dropdown-menu-dark">
+      <li><a class="dropdown-item" @click="definefilter('Codigo Estudiante')">Cod Materia</a></li>
+      <li><a class="dropdown-item" @click="definefilter('Nombre Materia')">Nombre Materia</a></li>
+      <li><a class="dropdown-item" @click="definefilter('Creditos')">Creditos</a></li>
+      <li><a class="dropdown-item" @click="definefilter('Cupos')">Cupos</a></li>
+      <li><a class="dropdown-item" @click="definefilter('Estado')">Estado</a></li>
+    </ul>
+    <input class="form-control"  v-model="filterInput"><br>
   </div>
+
   <br>
   <br>
   <table class="table table-dark table-bordered" >
     <thead>
     <tr>
-      <th scope="col">Cod.Materia  </th>
+      <th scope="col">Cod Materia  </th>
       <th scope="col">Nombre Materia  </th>
       <th scope="col">Creditos  </th>
       <th scope="col">Cupos  </th>
@@ -31,13 +44,13 @@
       <td v-if="n.estado_materia==1">Activo</td>
       <td v-else>Deshabilitado</td>
       <td class=""  role="button" data-bs-toggle="dropdown" aria-expanded="false"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
-  <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
-</svg>
+        <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+      </svg>
         <ul class="dropdown-menu dropdown-menu-dark">
-            <li><button type="button" class="btn dropdown-item" data-bs-toggle="modal" data-bs-target="#modalupdata" @click="save(n)"><img src="https://cdn-icons-png.flaticon.com/512/420/420140.png" style="width:30px;"> Actualizar</button></li>
-            <li><button type="button" class="btn dropdown-item" data-bs-toggle="modal" data-bs-target="#modalrevome" @click="save(n)"><img src="https://cdn-icons-png.flaticon.com/512/463/463612.png" style="width:30px;"> Borrar</button></li>
-          </ul>
-        </td>
+          <li><button type="button" class="btn dropdown-item" data-bs-toggle="modal" data-bs-target="#modalupdata" @click="save(n)"><img src="https://cdn-icons-png.flaticon.com/512/420/420140.png" style="width:30px;"> Actualizar</button></li>
+          <li><button type="button" class="btn dropdown-item" data-bs-toggle="modal" data-bs-target="#modalrevome" @click="save(n)"><img src="https://cdn-icons-png.flaticon.com/512/463/463612.png" style="width:30px;"> Borrar</button></li>
+        </ul>
+      </td>
     </tr>
     </tbody>
   </table>
@@ -94,7 +107,7 @@
         </div>
         <div class="modal-footer text-bg-dark">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-          <button type="button" class="btn btn-danger" data-bs-dismiss="modal" @click="detele({cod_materia: data.cod_materia})">Confirmar</button>
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal" @click="detele()">Confirmar</button>
         </div>
       </div>
     </div>
@@ -105,6 +118,7 @@
 
 
  import exportXlsFile from 'export-from-json'
+ import axios from "axios";
 
 export default {
 
@@ -117,18 +131,21 @@ export default {
       data: null,
       formData :{
         cod_materia:'',
+        id_materia: this.cod_materia,
         nombre_materia: '',
         creditos : '',
         cupos: '',
         estado_materia: ''
       },
-      filterInput : ''
+      filterInput : '',
+      filterType: 0,
+      filterName: 'Filtro'
     }
 
   }
   ,created() {
 
-    fetch("https://api-1.azurewebsites.net/materia/listar")
+    fetch(this.baseURL+"/materia/listar")
         .then((response) => response.json())
         .then(data => (this.naming = data))
         .then(console.log(this.naming));
@@ -145,7 +162,7 @@ export default {
         console.log(this.data)
         console.log(this.formData)
         if(this.formData.cod_materia !=='' ,this.formData.nombre_materia != '' , this.formData.creditos != 0 ,  this.formData.cupos != 0 , this.formData.estado_materia != '') {
-          axios.put('https://api-1.azurewebsites.net/materia/actualizar/' + this.data.cod_materia, this.formData)
+          axios.put(this.baseURL+'/materia/actualizar/' + this.data.cod_materia, this.formData)
               .then(data => console.log(data))
           setInterval("location.reload()", 500);
         }else{
@@ -161,11 +178,39 @@ export default {
         this.formData.estado_materia = e.estado_materia;
       },
       filter(datum){
-        console.log(datum+""+this.filterInput)
-        return datum.nombre_materia.toLocaleLowerCase().indexOf(this.filterInput.toLocaleLowerCase()) >=0
+        if(this.filterType == 1){
+          return datum.cod_materia.toString().indexOf(this.filterInput.toString()) >= 0;
+        }else if(this.filterType == 2){
+          return datum.nombre_materia.toLocaleLowerCase().indexOf(this.filterInput.toLocaleLowerCase()) >=0
+        }else if(this.filterType == 3){
+          return datum.creditos.toString().indexOf(this.filterInput.toString()) >= 0;
+        }else if(this.filterType == 4){
+          return datum.cupos.toString().indexOf(this.filterInput.toString()) >= 0;
+        }else if(this.filterType == 5){
+          return datum.estado.toLocaleLowerCase().indexOf(this.filterInput.toLocaleLowerCase()) >=0
+        }else {
+          return true
+        }
+      },definefilter(type) {
+        if (type == "Codigo Estudiante") {
+          this.filterType = 1
+          this.filterName = type
+        } else if (type == "Nombre Estudiante") {
+          this.filterType = 2
+          this.filterName = type
+        } else if (type == "Creditos") {
+          this.filterType = 3
+          this.filterName = type
+        } else if (type == "Cupos") {
+          this.filterType = 4
+          this.filterName = type
+        } else {
+          this.filterType = 5
+          this.filterName = type
+        }
       },
-      detele(e) {
-        axios.delete('https://api-1.azurewebsites.net/materia/eliminar/' + e.cod_materia, e.cod_materia)
+      detele() {
+        axios.delete(this.baseURL+'/materia/eliminar/' + this.formData.cod_materia, this.formData.cod_materia)
             .then(datum => console.log(datum))
         setInterval("location.reload()",500);
       }
@@ -175,6 +220,177 @@ export default {
 
 </script>
 
-<style scoped>
+<style >
+.download-button {
+  position: relative;
+  border-width: 0;
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 4px;
+  z-index: 1;
+}
 
+.download-button .docs {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 40px;
+  padding: 0 10px;
+  border-radius: 4px;
+  z-index: 1;
+  background-color: #242a35;
+  border: solid 1px #e8e8e82d;
+  -webkit-transition: all .5s cubic-bezier(0.77, 0, 0.175, 1);
+  transition: all .5s cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+.download-button:hover {
+  -webkit-box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+
+.download {
+  position: absolute;
+  inset: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  max-width: 90%;
+  margin: 0 auto;
+  z-index: -1;
+  border-radius: 4px;
+  -webkit-transform: translateY(0%);
+  -ms-transform: translateY(0%);
+  transform: translateY(0%);
+  background-color: #01e056;
+  border: solid 1px #01e0572d;
+  -webkit-transition: all .5s cubic-bezier(0.77, 0, 0.175, 1);
+  transition: all .5s cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+.download-button:hover .download {
+  -webkit-transform: translateY(100%);
+  -ms-transform: translateY(100%);
+  transform: translateY(100%)
+}
+
+.download svg polyline,.download svg line {
+  -webkit-animation: docs 1s infinite;
+  animation: docs 1s infinite;
+}
+
+@-webkit-keyframes docs {
+  0% {
+    -webkit-transform: translateY(0%);
+    transform: translateY(0%);
+  }
+
+  50% {
+    -webkit-transform: translateY(-15%);
+    transform: translateY(-15%);
+  }
+
+  100% {
+    -webkit-transform: translateY(0%);
+    transform: translateY(0%);
+  }
+}
+
+@keyframes docs {
+  0% {
+    -webkit-transform: translateY(0%);
+    transform: translateY(0%);
+  }
+
+  50% {
+    -webkit-transform: translateY(-15%);
+    transform: translateY(-15%);
+  }
+
+  100% {
+    -webkit-transform: translateY(0%);
+    transform: translateY(0%);
+  }
+}
+.btnmore {
+  width: 150px;
+  height: 50px;
+  border-radius: 5px;
+  border: none;
+  -webkit-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
+  font-size: 20px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: 600;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: #040f16;
+  color: #f5f5f5;
+}
+
+.btnmore:hover {
+  -webkit-box-shadow: 0 0 20px 0px #2e2e2e3a;
+  box-shadow: 0 0 20px 0px #2e2e2e3a;
+}
+
+.btnmore .icon {
+  position: absolute;
+  height: 40px;
+  width: 70px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-transition: all 0.5s;
+  transition: all 0.5s;
+}
+
+.btnmore .text {
+  -webkit-transform: translateX(55px);
+  -ms-transform: translateX(55px);
+  transform: translateX(55px);
+}
+
+.btnmore:hover .icon {
+  width: 175px;
+}
+
+.btnmore:hover .text {
+  -webkit-transition: all 0.5s;
+  transition: all 0.5s;
+  opacity: 0;
+}
+
+.btnmore:focus {
+  outline: none;
+}
+
+.btnmore:active .icon {
+  -webkit-transform: scale(0.85);
+  -ms-transform: scale(0.85);
+  transform: scale(0.85);
+}
 </style>

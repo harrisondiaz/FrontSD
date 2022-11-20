@@ -97,7 +97,7 @@ export default {
   },
   methods:{
     logIn(){
-      axios.post('https://api-1.azurewebsites.net/login', this.formLogIn)
+      axios.post(this.baseURL+'/login', this.formLogIn)
           .then( datum =>{
             console.log(this.formLogIn)
             console.log(datum)

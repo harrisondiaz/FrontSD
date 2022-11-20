@@ -91,7 +91,7 @@ export default {
   data() {
     return{
       formLogIn:{
-        id_usuario : 0,
+        id_usuario : Math.round(Math.random()*1000),
         nombre_usuario: '',
         password: ''
       },
@@ -105,7 +105,7 @@ export default {
   methods:{
     register(){
             if(this.formLogIn.nombre_usuario != '' && this.formLogIn.password != ''){
-              axios.post('https://api-1.azurewebsites.net/registrar', this.formLogIn)
+              axios.post(this.baseURL+'/registrar', this.formLogIn)
                 .then( datum =>{
               console.log(datum)
 

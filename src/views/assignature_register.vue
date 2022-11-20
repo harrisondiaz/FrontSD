@@ -38,6 +38,7 @@ export default {
       msg : null,
       formData :{
         cod_materia:'',
+        id_materia: this.cod_materia,
         nombre_materia: '',
         creditos : '',
         cupos: '',
@@ -51,11 +52,11 @@ export default {
   methods:{
       createPost(){
         // eslint-disable-next-line no-constant-condition
-        if(this.formData.cod_materia !=='' ,this.formData.nombre_materia != '' , this.formData.creditos != '' ,  this.formData.cupos != '' , this.formData.estado_materia != '') {
-          axios.post('https://api-1.azurewebsites.net/materia/registrar', this.formData)
+        if(this.formData.cod_materia !=='' && this.formData.nombre_materia !== '' && this.formData.creditos !== '' &&  this.formData.cupos !== '' && this.formData.estado_materia !== '') {
+          axios.post(this.baseURL+'/materia/registrar', this.formData)
               .then(response => console.log(response))
-              .catch(error => console.log(error))
-              this.formData.cod_materia = ''
+              .catch(error => console.log(error));
+             this.formData.cod_materia = ''
               this.formData.nombre_materia = ''
               this.formData.creditos = ''
               this.formData.cupos = ''

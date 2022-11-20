@@ -43,11 +43,11 @@ export default {
     }
   },
   created() {
-    fetch("https://api-1.azurewebsites.net/materia/listar")
+    fetch(this.baseURL+"/materia/listar")
         .then((response) => response.json())
         .then(data => (this.assignature = data))
         .then(console.log(this.assignature));
-        fetch("https://api-3-n.azurewebsites.net/estudiante/listar")
+        fetch(this.baseURL+"/estudiante/listar")
         .then((response) => response.json())
         .then(data => (this.studient = data))
         .then(console.log(this.studient));
@@ -56,7 +56,7 @@ export default {
       createPost(){
         // eslint-disable-next-line no-constant-condition
         if(this.formData.cod_materia !=='' && this.formData.cod_materia!== '') {
-          axios.post('https://api-2.azurewebsites.net/inscripcion/registrar', this.formData)
+          axios.post(this.baseURL+'/inscripcion/registrar', this.formData)
               .then(response => console.log(response))
               .catch(error => console.log(error))
               this.formData.cod_materia = ''
