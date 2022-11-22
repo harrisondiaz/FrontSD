@@ -6,7 +6,7 @@ export default {
   components: { PxHeader},
   data(){
     return{
-    phrase : this.$name_user
+      phrase : this.name_user,
     }
   },
   methods:{
@@ -15,9 +15,12 @@ export default {
 }
 </script>
 
-<template>
+<template >
+
+
   <px-header></px-header>
-  <h1 class="text-center ">Hola! {{phrase}}</h1>
+  <h1 class="text-center ">Hola! {{this.$data.phrase}}</h1>
 
   <p class="text-center fs-2">Bienvenido al Sistema de Informacion </p>
+
 </template>

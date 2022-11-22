@@ -9,7 +9,9 @@ import './assets/main.css'
 const Endpoint = {
     data(){
         return {
-            baseURL : 'http://192.168.1.6:5000'
+            authorized : false,
+            name_user : '',
+            baseURL : 'https://back-end-sd-production.up.railway.app'
         }
     }
 }

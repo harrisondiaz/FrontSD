@@ -102,11 +102,10 @@ export default {
             console.log(this.formLogIn)
             console.log(datum)
             if(datum.data.msg == "Usuario fue encontrado con exito"){
-              //localStorage.token = datum.token;
-              console.log(datum.data.getToken)
-              this.$name_user = this.formLogIn.nombre_usuario
+              this.authorized = true;
+              this.name_user = this.formLogIn.nombre_usuario
               this.$router.push("/assigature");
-              this.$name_user = this.formLogIn.nombre_usuario
+              this.name_user = this.formLogIn.nombre_usuario
             }else{
               this.error = true;
               this.error_msg = "No hemos podido encontrarte :c";
