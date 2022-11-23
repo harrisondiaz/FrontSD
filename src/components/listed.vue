@@ -16,7 +16,7 @@
       <li><a class="dropdown-item" @click="definefilter('Nombre Materia')">Nombre Materia</a></li>
       <li><a class="dropdown-item" @click="definefilter('Creditos')">Creditos</a></li>
       <li><a class="dropdown-item" @click="definefilter('Cupos')">Cupos</a></li>
-      <li><a class="dropdown-item" @click="definefilter('Estado')">Estado</a></li>
+
     </ul>
     <input class="form-control"  v-model="filterInput"><br>
   </div>
@@ -204,9 +204,12 @@ export default {
         } else if (type == "Cupos") {
           this.filterType = 4
           this.filterName = type
-        } else {
+        } else if(type == "Estado") {
           this.filterType = 5
           this.filterName = type
+        }else {
+          this.filterType = 0
+          this.filterName = "Filtro"
         }
       },
       detele() {
