@@ -52,6 +52,9 @@ export default {
   methods:{
       createPost(){
         // eslint-disable-next-line no-constant-condition
+        this.formData.id_materia = this.formData.cod_materia
+        console.log(this.formData)
+
         if(this.formData.cod_materia !=='' && this.formData.nombre_materia !== '' && this.formData.creditos !== '' &&  this.formData.cupos !== '' && this.formData.estado_materia !== '') {
           axios.post(this.baseURL+'/materia/registrar', this.formData)
               .then(response => console.log(response))
