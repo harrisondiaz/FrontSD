@@ -6,13 +6,11 @@
       <form @submit.prevent="createPost"  method="post">
       <label class="form-label">Materia:</label>
       <select class="form-select" id="cod_materia" v-model="formData.id_materia">
-        
-        <option @value="n.cod_materia" v-for="n in assignature">{{n.cod_materia}} - {{n.nombre_materia}}</option>
+        <option v-bind:value="n.id_materia" v-for="n in assignature">{{n.cod_materia}} - {{n.nombre_materia}}</option>
       </select>
       <label class="form-label">Codigo Estudiante:</label>
       <select class="form-select" id="cod_materia" v-model="formData.id_estudiante">
-        
-        <option @value="n.cod_materia" v-for="n in studient">{{n.cod_estudiante}} - {{n.nombre_estudiante}}</option>
+        <option :value="n.id_estudiante" v-for="n in studient">{{n.id_estudiante}} - {{n.nombre_estudiante}}</option>
       </select>
 
         <br>
@@ -38,7 +36,7 @@ export default {
       formData :{
         id_materia: 0,
         id_estudiante: 0,
-        fecha_inscripcion : new Date().getFullYear()+'-'+new Date().getMonth()+'-'+new Date().getDay(),
+        fecha_inscripcion : new Date().getDay()+'/'+(new Date().getMonth()+1)+'/'+new Date().getFullYear()
       }
     }
   },
@@ -55,12 +53,13 @@ export default {
   methods:{
       createPost(){
         // eslint-disable-next-line no-constant-condition
-        if(this.formData.cod_materia !=='' && this.formData.cod_materia!== '') {
+          if(this.formData.cod_materia !=='' && this.formData.cod_materia!== '') {
+            console.log(this.formData.data)
           axios.post(this.baseURL+'/inscripcion/registrar', this.formData)
               .then(response => console.log(response))
               .catch(error => console.log(error))
-              this.formData.cod_materia = ''
-              this.formData.cod_estudiante = ''
+              this.formData.id_materia = ''
+              this.formData.id_estudiante = ''
           document.getElementById("empty").innerHTML="<p class='text-success display-7 text-center'>Inscripcion Realizada</p>";
         }else{
           document.getElementById("empty").innerHTML="<p class='text-danger display-7 text-center'>Falta rellenar algun campo <br> Recuerde rellenar todos los campos</p>";

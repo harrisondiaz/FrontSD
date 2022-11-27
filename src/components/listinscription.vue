@@ -39,13 +39,13 @@
       <td>{{n.id_materia}}</td>
       <td>{{n.nombre_materia}}</td>
       <td>{{n.fecha_inscripcion}}</td>
-      <td><button type="button" class="btn " data-bs-toggle="modal" data-bs-target="#exampleModal" @click="save(n)"><img src="https://cdn-icons-png.flaticon.com/512/463/463612.png" style="width:30px;"></button></td>
+      <td><button type="button" class="btn " data-bs-toggle="modal" data-bs-target="#modalremove" @click="save(n)"><img src="https://cdn-icons-png.flaticon.com/512/463/463612.png" style="width:30px;"></button></td>
 
     </tr>
     </tbody>
   </table>
   <!-- Modal -->
-  <div class="modal fade text-bg-dark" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade text-bg-dark" id="modalremove" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog text-bg-dark">
       <div class="modal-content text-bg-dark">
         <div class=" text-bg-dark">
@@ -81,7 +81,11 @@ export default {
       data: null,
       filterInput: '',
       filterType: 0,
-      filterName: 'Filtro'
+      filterName: 'Filtro',
+      formData:{
+        id_estudiante:'',
+        id_materia:''
+      }
     }
 
   }
@@ -100,12 +104,14 @@ export default {
         console.log(data)
         exportXlsFile({data , fileName ,exportType})
       },detele() {
-        console.log(this.baseURL+'/inscripcion/eliminar/' + this.data.id_estudiante+'/'+this.data.id_materia)
-        axios.delete(this.baseURL+'/inscripcion/eliminar/' + this.data.id_estudiante+'/'+this.data.id_materia)
+        console.log(this.baseURL+'/inscripcion/eliminar/' + this.formData.id_estudiante+'/'+this.formData.id_materia)
+        axios.delete(this.baseURL+'/inscripcion/eliminar/' + this.formData.id_estudiante+'/'+this.formData.id_materia)
             .then(datum => console.log(datum))
         setInterval("location.reload()",500);
-      },
-      filter(datum){
+      },save(data){
+        this.formData.id_materia = data.id_materia
+        this.formData.id_estudiante = data.id_estudiante
+      },filter(datum){
         console.log(datum+""+this.filterInput)
         if(this.filterType == 1){
           return datum.id_estudiante.toString().indexOf(this.filterInput.toString())

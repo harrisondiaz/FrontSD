@@ -5,7 +5,7 @@
     <div class="card-body">
       <form @submit.prevent="createPost"  method="post">
       <label class="form-label">Codigo:</label>
-      <input class="form-control" id="cod_materia" v-model="formData.cod_estudiante" required>
+      <input class="form-control" id="cod_materia" v-model="formData.id_estudiante" required>
       <label class="form-label">Nombre:</label>
       <input class="form-control" id="nombre_materia" v-model="formData.nombre_estudiante" required>
         <label class="form-label">Apellido:</label>
@@ -47,8 +47,8 @@ export default {
     return{
       msg : null,
       formData :{
-        cod_estudiante:'',
-        id_estudiante: this.cod_estudiante,
+
+        id_estudiante: '',
         nombre_estudiante: '',
         apellido_estudiante: '',
         tipo_documento : 0,
@@ -63,10 +63,10 @@ export default {
   methods:{
       createPost(){
         // eslint-disable-next-line no-constant-condition
-        if(this.formData.cod_estudiante !=='' && this.formData.nombre_estudiante !== '' && this.formData.apellido_estudiante !== '' &&  this.formData.tipo_documento !== '' && this.formData.estado !== '') {
+        if(this.formData.id_estudiante !=='' && this.formData.nombre_estudiante !== '' && this.formData.apellido_estudiante !== '' &&  this.formData.tipo_documento !== '' && this.formData.estado !== '') {
           axios.post(this.baseURL+'/estudiante/registrar', this.formData)
             .then(data => console.log(data))
-          this.formData.cod_estudiante = ''
+          this.formData.id_estudiante = ''
           this.formData.nombre_estudiante = ''
           this.formData.apellido_estudiante = ''
           this.formData.tipo_documento = ''

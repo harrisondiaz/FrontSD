@@ -71,7 +71,7 @@
             <div class="card-body">
               <form @submit.prevent="createPost"  method="post">
                 <label class="form-label">Codigo:</label>
-                <input class="form-control" id="cod_materia" v-model="formData.id_estudiante" disabled>
+                <input class="form-control" id="id_materia" v-model="formData.id_estudiante" disabled>
                 <label class="form-label">Nombre:</label>
                 <input class="form-control" id="nombre_materia" v-model="formData.nombre_estudiante">
                 <label class="form-label">Apellido:</label>
