@@ -21,6 +21,8 @@
         <br>
       <button  class="btn btn-dark btn-outline-light" id="submito" >Registrar</button>
       </form>
+      <br>
+      <div id="empty"></div>
     </div>
     <div id="empty"><br></div>
     <p class="text-success" v-if="msg">Se ha registrado la materia correctamente</p>
@@ -56,13 +58,24 @@ export default {
         console.log(this.formData)
         if(this.formData.cod_materia !=='' && this.formData.nombre_materia !== '' && this.formData.creditos !== '' &&  this.formData.cupos !== '' && this.formData.estado_materia !== '') {
           axios.post(this.baseURL+'/materia/registrar', this.formData)
-              .then(response => console.log(response))
-              .catch(error => console.log(error));
-             this.formData.cod_materia = ''
-              this.formData.nombre_materia = ''
-              this.formData.creditos = ''
-              this.formData.cupos = ''
-              this.formData.estado_materia = ''
+              .then(response => {
+                console.log(response)
+                this.formData.cod_materia = ''
+                this.formData.nombre_materia = ''
+                this.formData.creditos = ''
+                this.formData.cupos = ''
+                this.formData.estado_materia = ''
+              })
+              .catch(error => {
+                console.log(error)
+                document.getElementById("empty").innerHTML="<div class='alert alert-danger' role='alert'>" +
+                    "Alguna asignatura ya tiene este codigo" +
+                    "</div>"
+                document.getElementById("cod_materia").classList.add('is-invalid')
+
+
+              });
+
         }else{
           document.getElementById("empty").innerHTML="<p class='text-danger display-7 text-center'>Falta rellenar algun campo <br> Recuerde rellenar todos los campos</p>";
 

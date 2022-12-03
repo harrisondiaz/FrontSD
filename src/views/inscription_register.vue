@@ -9,15 +9,17 @@
         <option v-bind:value="n.id_materia" v-for="n in assignature">{{n.cod_materia}} - {{n.nombre_materia}}</option>
       </select>
       <label class="form-label">Codigo Estudiante:</label>
-      <select class="form-select" id="cod_materia" v-model="formData.id_estudiante">
+      <select class="form-select" id="id_estudiante" v-model="formData.id_estudiante">
         <option :value="n.id_estudiante" v-for="n in studient">{{n.id_estudiante}} - {{n.nombre_estudiante}}</option>
       </select>
 
         <br>
       <button  class="btn btn-dark btn-outline-light" id="submito" >Registrar</button>
+        <br>
+        <br>
+        <div id="empty"></div>
       </form>
     </div>
-    <div id="empty"><br></div>
     <p class="text-success" v-if="msg">Se ha registrado la materia correctamente</p>
   </div>
 </template>
@@ -56,13 +58,23 @@ export default {
           if(this.formData.cod_materia !=='' && this.formData.cod_materia!== '') {
             console.log(this.formData.data)
           axios.post(this.baseURL+'/inscripcion/registrar', this.formData)
-              .then(response => console.log(response))
-              .catch(error => console.log(error))
-              this.formData.id_materia = ''
-              this.formData.id_estudiante = ''
-          document.getElementById("empty").innerHTML="<p class='text-success display-7 text-center'>Inscripcion Realizada</p>";
+              .then(response => {
+                console.log(response)
+                this.formData.id_materia = ''
+                this.formData.id_estudiante = ''
+                document.getElementById("empty").innerHTML="<p class='text-success display-7 text-center'>Inscripcion Realizada</p>";
+              })
+              .catch(error =>{
+                console.log(error)
+                document.getElementById("empty").innerHTML="<div class='alert alert-danger' role='alert'>" +
+                    "Esta Inscripcion ya esta realizada" +
+                    "</div>"
+                document.getElementById("cod_materia").classList.add('is-invalid')
+                document.getElementById("id_estudiante").classList.add('is-invalid')
+
+
+              })
         }else{
-          document.getElementById("empty").innerHTML="<p class='text-danger display-7 text-center'>Falta rellenar algun campo <br> Recuerde rellenar todos los campos</p>";
 
         }
       }

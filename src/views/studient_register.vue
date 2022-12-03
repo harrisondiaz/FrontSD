@@ -5,7 +5,7 @@
     <div class="card-body">
       <form @submit.prevent="createPost"  method="post">
       <label class="form-label">Codigo:</label>
-      <input class="form-control" id="cod_materia" v-model="formData.id_estudiante" required>
+      <input class="form-control" id="cod_estudiante" v-model="formData.id_estudiante" required>
       <label class="form-label">Nombre:</label>
       <input class="form-control" id="nombre_materia" v-model="formData.nombre_estudiante" required>
         <label class="form-label">Apellido:</label>
@@ -17,22 +17,24 @@
       </div>
       <label class="form-label">Estado:</label>
       <select class ="form-select" v-model="formData.estado" >
-        <option value=0 selected>Seleccione una opción</option>
+        <option value=0 disabled>Seleccione una opción</option>
         <option value="A">Activo</option>
         <option value="R">Retirado</option>
       </select>
       <label class="form-label">Tipo Documento:</label>
       <select class="form-select" id="estado_materia" v-model="formData.tipo_documento" >
-        <option value=0 selected>Seleccione una opción....</option>
+        <option value=0 disabled>Seleccione una opción....</option>
         <option value=1>Pasaporte</option>
         <option value=2>CC</option>
         <option value=3>TI</option>
       </select>
         <br>
       <button  class="btn btn-dark btn-outline-light" id="submito" >Registrar</button>
+        <br>
+        <br>
+      <div id="empty"><br></div>
       </form>
     </div>
-    <div id="empty"><br></div>
     <p class="text-success" v-if="msg">Se ha registrado la materia correctamente</p>
   </div>
 </template>
@@ -65,12 +67,22 @@ export default {
         // eslint-disable-next-line no-constant-condition
         if(this.formData.id_estudiante !=='' && this.formData.nombre_estudiante !== '' && this.formData.apellido_estudiante !== '' &&  this.formData.tipo_documento !== '' && this.formData.estado !== '') {
           axios.post(this.baseURL+'/estudiante/registrar', this.formData)
-            .then(data => console.log(data))
-          this.formData.id_estudiante = ''
-          this.formData.nombre_estudiante = ''
-          this.formData.apellido_estudiante = ''
-          this.formData.tipo_documento = ''
-          this.formData.estado = ''
+            .then(data => {
+              console.log(data)
+              this.formData.id_estudiante = ''
+              this.formData.nombre_estudiante = ''
+              this.formData.apellido_estudiante = ''
+              this.formData.tipo_documento = ''
+              this.formData.estado = ''
+            })
+              .catch(error => {
+                console.log(error)
+                document.getElementById("empty").innerHTML="<div class='alert alert-danger' role='alert'>" +
+                    "Algun(a) estudiante ya tiene este codigo" +
+                    "</div>"
+                document.getElementById("cod_estudiante").classList.add('is-invalid')
+              })
+
           console.log(this.formData)
           //setInterval("location.reload()", 500);
         }else{
