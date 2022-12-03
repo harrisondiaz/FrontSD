@@ -161,9 +161,11 @@ export default {
       updata() {
         console.log(this.data)
         console.log(this.formData)
-        if(this.formData.cod_materia !=='' ,this.formData.nombre_materia != '' , this.formData.creditos != 0 ,  this.formData.cupos != 0 , this.formData.estado_materia != '') {
+        this.formData.id_materia = this.formData.cod_materia;
+        if(this.formData.cod_materia !=='' && this.formData.nombre_materia !== '' && this.formData.creditos !== 0 &&  this.formData.cupos !== 0 && this.formData.estado_materia !== '') {
           axios.put(this.baseURL+'/materia/actualizar/' + this.data.cod_materia, this.formData)
               .then(data => console.log(data))
+              .catch(err => console.log(err))
           setInterval("location.reload()", 500);
         }else{
           document.getElementById("empty").innerHTML="<p class='text-danger display-7 text-center'>Falta rellenar algun campo <br> Recuerde rellenar todos los campos</p>";

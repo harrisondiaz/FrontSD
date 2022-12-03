@@ -14,7 +14,7 @@
       <input type="number" class="form-control" id="cupos" v-model="formData.cupos">
       <label class="form-label">Estado:</label>
       <select class="form-select" id="estado_materia" v-model="formData.estado_materia">
-        <option selected>Seleccione una opción....</option>
+        <option value=0 disabled>Seleccione una opción....</option>
         <option value=true>Activo</option>
         <option value=false>Desactivo</option>
       </select>
@@ -42,7 +42,7 @@ export default {
         nombre_materia: '',
         creditos : '',
         cupos: '',
-        estado_materia: ''
+        estado_materia: 0
       }
     }
   },
@@ -54,7 +54,6 @@ export default {
         // eslint-disable-next-line no-constant-condition
         this.formData.id_materia = this.formData.cod_materia
         console.log(this.formData)
-
         if(this.formData.cod_materia !=='' && this.formData.nombre_materia !== '' && this.formData.creditos !== '' &&  this.formData.cupos !== '' && this.formData.estado_materia !== '') {
           axios.post(this.baseURL+'/materia/registrar', this.formData)
               .then(response => console.log(response))
