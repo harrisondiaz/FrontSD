@@ -1,3 +1,4 @@
+
 <template>
   <h1 class="text-center">Estudiantes</h1>
   <button class="download-button position-absolute top-25 end-0"   style="background-color: transparent">
@@ -6,8 +7,8 @@
       <svg class="css-i6dzq1" stroke-linejoin="round" stroke-linecap="round" fill="none" stroke-width="2" stroke="currentColor" height="24" width="24" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line y2="3" x2="12" y1="15" x1="12"></line></svg>
     </div>
   </button><div class="input-group  mb-3" style="width: 50%;">
-    <button class="input-group-text btn btn-outline-secondary text-light">Busqueda({{filterName}})</button>
-    <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split text-light " data-bs-toggle="dropdown" aria-expanded="false">
+  <button class="input-group-text btn btn-outline-secondary text-light">Busqueda({{filterName}})</button>
+  <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split text-light " data-bs-toggle="dropdown" aria-expanded="false">
     <span class="visually-hidden">Toggle Dropdown</span>
   </button>
   <ul class="dropdown-menu dropdown-menu-dark">
@@ -17,25 +18,25 @@
     <li><a class="dropdown-item" @click="definefilter('Tipo de Documento')">Tipo de Documento</a></li>
     <li><a class="dropdown-item" @click="definefilter('Estado')">Estado</a></li>
   </ul>
-    <input class="form-control"  v-model="filterInput"><br>
-  </div>
+  <input class="form-control"  v-model="filterInput"><br>
+</div>
   <br>
   <table class="table table-dark table-bordered" >
     <thead>
     <tr>
-      <th scope="col">Cod Estudiante  </th>
-      <th scope="col">Nombre   </th>
-      <th scope="col">Apellidos  </th>
-      <th scope="col">Tipo de documento  </th>
-      <th scope="col">Estado  </th>
+      <th @click="sort('id_estudiante')" scope="col" style="user-select:none">Cod Estudiante  </th>
+      <th @click="sort('nombre_estudiante')" scope="col" style="user-select:none">Nombre   </th>
+      <th @click="sort('apellido_estudiante')" scope="col" style="user-select:none">Apellidos  </th>
+      <th @click="sort('tipo_documento')" scope="col" style="user-select:none">Tipo de documento  </th>
+      <th @click="sort('estado')" scope="col" style="user-select:none">Estado  </th>
       <th scope="col">Foto  </th>
       <th scope="col">Opción</th>
     </tr>
     </thead>
     <tbody>
-    <tr v-show="filter(n)"  v-for="n in naming" :key="n.id_estudiante">
-      <th scope="row">{{n.id_estudiante}}</th>
-      <td>{{n.nombre_estudiante}}</td>
+    <tr v-show="filter(n)"  v-for="n in sorted" :key="n.id_estudiante">
+      <th scope="row" >{{n.id_estudiante}}</th>
+      <td >{{n.nombre_estudiante}}</td>
       <td>{{n.apellido_estudiante}}</td>
       <td v-if="n.tipo_documento=='PASSPORT'">Pasaporte</td>
       <td v-else-if="n.tipo_documento=='CC'">CC</td>
@@ -44,21 +45,25 @@
       <td v-else-if="n.estado=='E'">Eliminado(a)</td>
       <td v-else>Retirado</td>
 
-<!--      <td>{{n.estado_materia}}</td>-->
+      <!--      <td>{{n.estado_materia}}</td>-->
 
       <td><img src="https://comunidadvalorant.es/wp-content/uploads/2021/04/guia-killjoy-valorant.jpg" style="width: 10px;height: 10%"></td>
       <td class=""  role="button" data-bs-toggle="dropdown" aria-expanded="false"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
-  <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
-</svg>
+        <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+      </svg>
         <ul class="dropdown-menu dropdown-menu-dark">
-            <li><button type="button" class="btn dropdown-item" data-bs-toggle="modal" data-bs-target="#modalupdata" @click="save(n)"><img src="https://cdn-icons-png.flaticon.com/512/420/420140.png" style="width:30px;"> Actualizar</button></li>
-            <li><button type="button" class="btn dropdown-item" data-bs-toggle="modal" data-bs-target="#modalremove" @click="save(n)"><img src="https://cdn-icons-png.flaticon.com/512/463/463612.png" style="width:30px;"> Borrar</button></li>
-          </ul>
-        </td>
+          <li><button type="button" class="btn dropdown-item" data-bs-toggle="modal" data-bs-target="#modalupdata" @click="save(n)"><img src="https://cdn-icons-png.flaticon.com/512/420/420140.png" style="width:30px;"> Actualizar</button></li>
+          <li><button type="button" class="btn dropdown-item" data-bs-toggle="modal" data-bs-target="#modalremove" @click="save(n)"><img src="https://cdn-icons-png.flaticon.com/512/463/463612.png" style="width:30px;"> Borrar</button></li>
+        </ul>
+      </td>
     </tr>
     </tbody>
   </table>
-
+  <p>
+    <button class="btn btn-dark" @click="prevPage">Previous</button>
+    &nbsp;
+    <button class="btn btn-dark" @click="nextPage">Next</button>
+  </p>
   <!-- Modal -->
   <div class="modal fade text-bg-dark" id="modalupdata" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog text-bg-dark">
@@ -95,18 +100,18 @@
                 <br>
               </form>
             </div>
-        </div>
-        <div class="modal-footer text-bg-dark">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-success" data-bs-dismiss="modal" @click="updata()">Actualizar</button>
-          <div id="empty"></div>
+          </div>
+          <div class="modal-footer text-bg-dark">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-success" data-bs-dismiss="modal" @click="updata()">Actualizar</button>
+            <div id="empty"></div>
+          </div>
         </div>
       </div>
     </div>
   </div>
-  </div>
-   <!-- Modal -->
-   <div class="modal fade text-bg-dark" id="modalremove" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <!-- Modal -->
+  <div class="modal fade text-bg-dark" id="modalremove" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog text-bg-dark">
       <div class="modal-content text-bg-dark">
         <div class=" text-bg-dark">
@@ -128,120 +133,147 @@
 <script>
 
 
- import exportXlsFile from 'export-from-json'
- import axios from "axios";
+import exportXlsFile from 'export-from-json'
+import axios from "axios";
 
 export default {
 
 
   // eslint-disable-next-line vue/multi-word-component-names
   name: "listed",
-  data(){
-    return{
-      naming : [],
+  data() {
+    return {
+      naming: [],
       data: null,
-      formData :{
-        id_estudiante:'',
+      formData: {
+        id_estudiante: '',
         nombre_estudiante: '',
         apellido_estudiante: '',
-        tipo_documento : 0,
+        tipo_documento: 0,
         foto: '',
         estado: ''
       },
-      filterInput : '',
+      filterInput: '',
       filterType: 0,
-      filterName: 'Filtro'
+      filterName: 'Filtro',
+      currentSort: 'name',
+      currentSortDir: 'asc',
+      pageSize: 10,
+      currentPage: 1
     }
 
   }
-  ,created() {
+  , created() {
 
-    fetch(this.baseURL+"/estudiante/listar")
+    fetch(this.baseURL + "/estudiante/listar")
         .then((response) => response.json())
-        .then(data => (this.naming = data))
+        .then(response => (this.naming = response))
 
 
-    for (const data in this.naming) {
-      console.log(data.toLocaleLowerCase())
+  }, methods: {
+    download() {
+      const data = this.naming;
+      const fileName = 'download';
+      const exportType = exportXlsFile.types.xls
+      console.log(data)
+      exportXlsFile({data, fileName, exportType})
+    },
+    updata() {
+      console.log(this.data)
+      console.log(this.formData)
+      this.formData.foto = null
+      if (this.formData.tipo_documento == 'PASSAPORT') {
+        this.formData.tipo_documento = 1
+      } else if (this.formData.tipo_documento == 'CC') {
+        this.formData.tipo_documento = 3
+      } else {
+        this.formData.tipo_documento = 2
+      }
+      if (this.formData.id_estudiante !== '' && this.formData.nombre_estudiante !== '' && this.formData.apellido_estudiante !== '' && this.formData.tipo_documento !== '' && this.formData.estado !== '') {
+        axios.put(this.baseURL + '/estudiante/actualizar/' + this.data.id_estudiante, this.formData)
+            .then(data => console.log(data))
+        setInterval("location.reload()", 500);
+      } else {
+        document.getElementById("empty").innerHTML = "<p class='text-danger display-7 text-center'>Falta rellenar algun campo <br> Recuerde rellenar todos los campos</p>";
+      }
+    }, detele() {
+      console.log(this.data)
+      console.log(this.data.id_estudiante)
+      console.log(this.baseURL + '/estudiante/eliminar/' + this.data.id_estudiante)
+      axios.delete(this.baseURL + '/estudiante/eliminar/' + this.data.id_estudiante)
+          .then(datum => console.log(datum))
+      setInterval("location.reload()", 500);
+    },
+    save(e) {
+      this.data = e
+      this.formData.id_estudiante = e.id_estudiante;
+      this.formData.nombre_estudiante = e.nombre_estudiante;
+      this.formData.apellido_estudiante = e.apellido_estudiante;
+      this.formData.tipo_documento = e.tipo_documento;
+      this.formData.estado = e.estado;
+      console.log(this.formData)
+    },
+    filter(datum) {
+      console.log(datum + "" + this.filterInput)
+      if (this.filterType == 1) {
+        return datum.id_estudiante.toString().indexOf(this.filterInput.toString())
+      } else if (this.filterType == 2) {
+        return datum.nombre_estudiante.toLocaleLowerCase().indexOf(this.filterInput.toLocaleLowerCase()) >= 0
+      } else if (this.filterType == 3) {
+        return datum.apellido_estudiante.toLocaleLowerCase().indexOf(this.filterInput.toLocaleLowerCase()) >= 0
+      } else if (this.filterType == 4) {
+        return datum.tipo_documento.toLocaleLowerCase().indexOf(this.filterInput.toLocaleLowerCase()) >= 0
+      } else if (this.filterType == 5) {
+        return datum.estado.toLocaleLowerCase().indexOf(this.filterInput.toLocaleLowerCase()) >= 0
+      } else {
+        return true;
+      }
+    }, definefilter(type) {
+      if (type == "Codigo Estudiante") {
+        this.filterType = 1
+        this.filterName = type
+      } else if (type == "Nombre Estudiante") {
+        this.filterType = 2
+        this.filterName = type
+      } else if (type == "Apellido Estudiante") {
+        this.filterType = 3
+        this.filterName = type
+      } else if (type == "Tipo de Documento") {
+        this.filterType = 4
+        this.filterName = type
+      } else {
+        this.filterType = 5
+        this.filterName = type
+      }
+    }, nextPage: function () {
+      if ((this.currentPage * this.pageSize) < this.naming.length) this.currentPage++;
+    },
+    prevPage: function () {
+      if (this.currentPage > 1) this.currentPage--;
+    }, sort: function (s) {
+      //if s == current sort, reverse
+      if (s === this.currentSort) {
+        this.currentSortDir = this.currentSortDir == 'asc' ? 'desc' : 'asc';
+      }
+      this.currentSort = s;
     }
 
-  },methods:{
-      download(){
-        const data = this.naming;
-        const fileName = 'download';
-        const exportType = exportXlsFile.types.xls
-        console.log(data)
-        exportXlsFile({data , fileName ,exportType})
-      },
-      updata() {
-        console.log(this.data)
-        console.log(this.formData)
-        this.formData.foto = null
-        if(this.formData.tipo_documento=='PASSAPORT'){
-          this.formData.tipo_documento=1
-        }else if(this.formData.tipo_documento=='CC'){
-          this.formData.tipo_documento= 3
-        }else {
-          this.formData.tipo_documento= 2
-        }
-        if(this.formData.id_estudiante !=='' && this.formData.nombre_estudiante !== '' && this.formData.apellido_estudiante !== '' &&  this.formData.tipo_documento !== '' && this.formData.estado !== '') {
-          axios.put(this.baseURL+'/estudiante/actualizar/' + this.data.id_estudiante, this.formData)
-              .then(data => console.log(data))
-          setInterval("location.reload()", 500);
-        }else{
-          document.getElementById("empty").innerHTML="<p class='text-danger display-7 text-center'>Falta rellenar algun campo <br> Recuerde rellenar todos los campos</p>";
-        }
-      },detele() {
-        console.log(this.data)
-        console.log(this.data.id_estudiante)
-        console.log(this.baseURL+'/estudiante/eliminar/' + this.data.id_estudiante)
-        axios.delete(this.baseURL+'/estudiante/eliminar/' + this.data.id_estudiante)
-            .then(datum => console.log(datum))
-        setInterval("location.reload()",500);
-      },
-      save(e){
-        this.data = e
-        this.formData.id_estudiante = e.id_estudiante;
-        this.formData.nombre_estudiante = e.nombre_estudiante;
-        this.formData.apellido_estudiante = e.apellido_estudiante;
-        this.formData.tipo_documento = e.tipo_documento;
-        this.formData.estado = e.estado;
-        console.log(this.formData)
-      },
-      filter(datum){
-        console.log(datum+""+this.filterInput)
-        if(this.filterType == 1){
-            return datum.id_estudiante.toString().indexOf(this.filterInput.toString())
-        }else if(this.filterType == 2){
-          return datum.nombre_estudiante.toLocaleLowerCase().indexOf(this.filterInput.toLocaleLowerCase()) >=0
-        }else if(this.filterType == 3){
-          return datum.apellido_estudiante.toLocaleLowerCase().indexOf(this.filterInput.toLocaleLowerCase()) >=0
-        }else if(this.filterType == 4){
-          return datum.tipo_documento.toLocaleLowerCase().indexOf(this.filterInput.toLocaleLowerCase()) >=0
-        }else if(this.filterType == 5){
-          return datum.estado.toLocaleLowerCase().indexOf(this.filterInput.toLocaleLowerCase()) >=0
-        }else {
-          return true;
-        }
-      },definefilter(type){
-        if(type == "Codigo Estudiante"){
-            this.filterType = 1
-            this.filterName = type
-          }else if(type == "Nombre Estudiante"){
-            this.filterType = 2
-            this.filterName = type
-          }else if(type == "Apellido Estudiante"){
-            this.filterType = 3
-            this.filterName = type
-          }else if(type == "Tipo de Documento"){
-            this.filterType = 4
-            this.filterName = type
-          }else{
-            this.filterType = 5
-            this.filterName = type
-        }
-      }
-      
+  }, computed: {
+    sorted: function () {
+
+      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+      return this.naming.sort((a, b) => {
+        let modifier = 1;
+        if (this.currentSortDir === 'desc') modifier = -1;
+        if (a[this.currentSort] < b[this.currentSort]) return -1 * modifier;
+        if (a[this.currentSort] > b[this.currentSort]) return 1 * modifier;
+        return 0;
+      }).filter((row, index) => {
+        let start = (this.currentPage - 1) * this.pageSize;
+        let end = this.currentPage * this.pageSize;
+        if (index >= start && index < end) return true;
+      });
+    }
   }
 }
 
