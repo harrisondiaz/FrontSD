@@ -18,10 +18,10 @@
     <li><a class="dropdown-item" @click="definefilter('Tipo de Documento')">Tipo de Documento</a></li>
     <li><a class="dropdown-item" @click="definefilter('Estado')">Estado</a></li>
   </ul>
-  <input class="form-control"  v-model="filterInput"><br>
+  <input class="form-control "  v-model="filterInput"><br>
 </div>
   <br>
-  <table class="table table-dark table-bordered" >
+  <table class="table table-dark table-bordered table-hover " >
     <thead>
     <tr>
       <th @click="sort('id_estudiante')" scope="col" style="user-select:none">Cod Estudiante  </th>
@@ -214,6 +214,7 @@ export default {
       console.log(this.formData)
     },
     filter(datum) {
+
       console.log(datum + "" + this.filterInput)
       if (this.filterType == 1) {
         return datum.id_estudiante.toString().indexOf(this.filterInput.toString())
