@@ -7,7 +7,7 @@
     </div>
   </button>
   <div class="input-group  mb-3" style="width: 50%;">
-    <button class="input-group-text btn btn-outline-secondary text-light">Busqueda({{filterName}})</button>
+    <button @click="definefilter('Filtro')" class="input-group-text btn btn-outline-secondary text-light">Busqueda({{filterName}})</button>
     <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split text-light " data-bs-toggle="dropdown" aria-expanded="false">
       <span class="visually-hidden">Toggle Dropdown</span>
     </button>
@@ -71,7 +71,7 @@
             <div class="card-body">
               <form @submit.prevent="createPost"  method="post">
                 <label class="form-label">Codigo:</label>
-                <input type="number" class="form-control" id="cod_materia" v-model="formData.id_materia">
+                <input type="number" class="form-control " id="cod_materia" v-model="formData.id_materia" disabled readonly>
                 <label class="form-label">Nombre:</label>
                 <input class="form-control" id="nombre_materia" v-model="formData.nombre_materia">
                 <label class="form-label">Creditos:</label>
@@ -80,7 +80,7 @@
                 <input type="number" class="form-control" id="cupos" v-model="formData.cupos">
                 <label class="form-label">Estado:</label>
                 <select class="form-select" id="estado_materia" v-model="formData.estado_materia">
-                  <option selected>Seleccione una opción....</option>
+                  <option disabled>Seleccione una opción....</option>
                   <option value=true>Activo</option>
                   <option value=false>Desactivo</option>
                 </select>
