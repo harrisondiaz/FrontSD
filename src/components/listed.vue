@@ -12,7 +12,7 @@
       <span class="visually-hidden">Toggle Dropdown</span>
     </button>
     <ul class="dropdown-menu dropdown-menu-dark">
-      <li><a class="dropdown-item" @click="definefilter('Codigo Estudiante')">Cod Materia</a></li>
+      <li><a class="dropdown-item" @click="definefilter('Codigo Materia')">Cod Materia</a></li>
       <li><a class="dropdown-item" @click="definefilter('Nombre Materia')">Nombre Materia</a></li>
       <li><a class="dropdown-item" @click="definefilter('Creditos')">Creditos</a></li>
       <li><a class="dropdown-item" @click="definefilter('Cupos')">Cupos</a></li>
@@ -26,16 +26,16 @@
   <table class="table table-dark table-bordered" >
     <thead>
     <tr>
-      <th scope="col">Cod Materia  </th>
-      <th scope="col">Nombre Materia  </th>
-      <th scope="col">Creditos  </th>
-      <th scope="col">Cupos  </th>
-      <th scope="col">Estado  </th>
+      <th @click="sort('id_materia')" scope="col" style="user-select:none">Cod Materia  </th>
+      <th @click="sort('nombre_materia')" scope="col" style="user-select:none">Nombre Materia  </th>
+      <th @click="sort('creditos')" scope="col" style="user-select:none">Creditos  </th>
+      <th @click="sort('cupos')" scope="col" style="user-select:none">Cupos  </th>
+      <th @click="sort('estado_materia')" scope="col" style="user-select:none">Estado  </th>
       <th scope="col">Opción</th>
     </tr>
     </thead>
     <tbody>
-    <tr v-show="filter(n)" v-for="n in naming" :key="n.cod_materia">
+    <tr v-show="filter(n)" v-for="n in sorted" :key="n.cod_materia">
       <th scope="row">{{n.cod_materia}}</th>
       <td>{{n.nombre_materia}}</td>
       <td>{{n.creditos}}</td>
@@ -54,7 +54,11 @@
     </tr>
     </tbody>
   </table>
-
+  <p>
+    <button class="btn btn-dark" @click="prevPage">Previous</button>
+    &nbsp;
+    <button class="btn btn-dark" @click="nextPage">Next</button>
+  </p>
  <!-- Modal -->
  <div class="modal fade text-bg-dark" id="modalupdata" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog text-bg-dark">
@@ -67,7 +71,7 @@
             <div class="card-body">
               <form @submit.prevent="createPost"  method="post">
                 <label class="form-label">Codigo:</label>
-                <input type="number" class="form-control" id="cod_materia" v-model="formData.cod_materia">
+                <input type="number" class="form-control" id="cod_materia" v-model="formData.id_materia">
                 <label class="form-label">Nombre:</label>
                 <input class="form-control" id="nombre_materia" v-model="formData.nombre_materia">
                 <label class="form-label">Creditos:</label>
@@ -131,7 +135,7 @@ export default {
       data: null,
       formData :{
         cod_materia:'',
-        id_materia: this.cod_materia,
+        id_materia: '',
         nombre_materia: '',
         creditos : '',
         cupos: '',
@@ -139,7 +143,11 @@ export default {
       },
       filterInput : '',
       filterType: 0,
-      filterName: 'Filtro'
+      filterName: 'Filtro',
+      currentSort: 'name',
+      currentSortDir: 'asc',
+      pageSize: 10,
+      currentPage: 1
     }
 
   }
@@ -165,8 +173,21 @@ export default {
         if(this.formData.cod_materia !=='' && this.formData.nombre_materia !== '' && this.formData.creditos !== 0 &&  this.formData.cupos !== 0 && this.formData.estado_materia !== '') {
           axios.put(this.baseURL+'/materia/actualizar/' + this.data.cod_materia, this.formData)
               .then(data => console.log(data))
-              .catch(err => console.log(err))
-          setInterval("location.reload()", 500);
+              .catch(err => {
+                console.log(err)
+                document.getElementById("empty").innerHTML = "<div class=\"toast\" role=\"alert\" aria-live=\"assertive\" aria-atomic=\"true\">\n" +
+                    "  <div class=\"toast-header\">\n" +
+                    "    <img src=\"...\" class=\"rounded me-2\" alt=\"...\">\n" +
+                    "    <strong class=\"me-auto\">Bootstrap</strong>\n" +
+                    "    <small class=\"text-muted\">11 mins ago</small>\n" +
+                    "    <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"toast\" aria-label=\"Close\"></button>\n" +
+                    "  </div>\n" +
+                    "  <div class=\"toast-body\">\n" +
+                    "    Ups! Ocurrio algo inesperado por favor aguarte estamos revisando" +
+                    "  </div>\n" +
+                    "</div>"
+              })
+              .finally(()=>{setInterval("location.reload()", 500); })
         }else{
           document.getElementById("empty").innerHTML="<p class='text-danger display-7 text-center'>Falta rellenar algun campo <br> Recuerde rellenar todos los campos</p>";
         }
@@ -174,6 +195,7 @@ export default {
       save(e){
         this.data = e
         this.formData.cod_materia = e.cod_materia;
+        this.formData.id_materia = e.id_materia;
         this.formData.nombre_materia = e.nombre_materia;
         this.formData.creditos = e.creditos;
         this.formData.cupos = e.cupos;
@@ -194,10 +216,10 @@ export default {
           return true
         }
       },definefilter(type) {
-        if (type == "Codigo Estudiante") {
+        if (type == "Codigo Materia") {
           this.filterType = 1
           this.filterName = type
-        } else if (type == "Nombre Estudiante") {
+        } else if (type == "Nombre Materia") {
           this.filterType = 2
           this.filterName = type
         } else if (type == "Creditos") {
@@ -218,8 +240,35 @@ export default {
         axios.delete(this.baseURL+'/materia/eliminar/' + this.formData.cod_materia, this.formData.cod_materia)
             .then(datum => console.log(datum))
         setInterval("location.reload()",500);
+      },nextPage: function () {
+      if ((this.currentPage * this.pageSize) < this.naming.length) this.currentPage++;
+    },
+    prevPage: function () {
+      if (this.currentPage > 1) this.currentPage--;
+    }, sort: function (s) {
+      //if s == current sort, reverse
+      if (s === this.currentSort) {
+        this.currentSortDir = this.currentSortDir == 'asc' ? 'desc' : 'asc';
       }
+      this.currentSort = s;
+    }
       
+  },computed:{
+    sorted: function () {
+
+      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+      return this.naming.sort((a, b) => {
+        let modifier = 1;
+        if (this.currentSortDir === 'desc') modifier = -1;
+        if (a[this.currentSort] < b[this.currentSort]) return -1 * modifier;
+        if (a[this.currentSort] > b[this.currentSort]) return 1 * modifier;
+        return 0;
+      }).filter((row, index) => {
+        let start = (this.currentPage - 1) * this.pageSize;
+        let end = this.currentPage * this.pageSize;
+        if (index >= start && index < end) return true;
+      });
+    }
   }
 }
 

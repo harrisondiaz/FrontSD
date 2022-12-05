@@ -24,16 +24,16 @@
   <table class="table table-dark table-bordered" >
     <thead>
     <tr>
-      <th scope="col">Cod Estudiante  </th>
-      <th scope="col">Nombre Estudiante  </th>
-      <th scope="col"> Cod Materia  </th>
-      <th scope="col"> Nombre Materia  </th>
-      <th scope="col">Fecha Inscripción  </th>
+      <th @click="sort('id_estudiante')" scope="col" style="user-select:none">Cod Estudiante  </th>
+      <th @click="sort('nombre_estudiante')" scope="col" style="user-select:none">Nombre Estudiante  </th>
+      <th @click="sort('id_materia')" scope="col" style="user-select:none"> Cod Materia  </th>
+      <th @click="sort('nombre_materia')" scope="col" style="user-select:none"> Nombre Materia  </th>
+      <th @click="sort('fecha_inscripcion')" scope="col" style="user-select:none">Fecha Inscripción  </th>
       <th scope="col">Eliminar  </th>
     </tr>
     </thead>
     <tbody>
-    <tr v-show="filter(n)" v-for="n in naming" :key="n.id_estudiante">
+    <tr v-show="filter(n)" v-for="n in sorted" :key="n.id_estudiante">
       <th scope="row">{{n.id_estudiante}}</th>
       <th scope="row">{{n.nombre_estudiante}}</th>
       <td>{{n.id_materia}}</td>
@@ -44,6 +44,11 @@
     </tr>
     </tbody>
   </table>
+  <p>
+    <button class="btn btn-dark" @click="prevPage">Previous</button>
+    &nbsp;
+    <button class="btn btn-dark" @click="nextPage">Next</button>
+  </p>
   <!-- Modal -->
   <div class="modal fade text-bg-dark" id="modalremove" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog text-bg-dark">
@@ -85,7 +90,11 @@ export default {
       formData:{
         id_estudiante:'',
         id_materia:''
-      }
+      },
+      currentSort: 'name',
+      currentSortDir: 'asc',
+      pageSize: 10,
+      currentPage: 1
     }
 
   }
@@ -118,7 +127,7 @@ export default {
         }else if(this.filterType == 2){
           return datum.nombre_estudiante.toLocaleLowerCase().indexOf(this.filterInput.toLocaleLowerCase()) >=0
         }else if(this.filterType == 3){
-          return datum.cod_materia.toLocaleLowerCase().indexOf(this.filterInput.toLocaleLowerCase()) >=0
+          return datum.id_materia.toString().indexOf(this.filterInput.toString())
         }else if(this.filterType == 4){
           return datum.nombre_materia.toLocaleLowerCase().indexOf(this.filterInput.toLocaleLowerCase()) >=0
         }else if(this.filterType == 5){
@@ -143,9 +152,34 @@ export default {
         this.filterType = 5
         this.filterName = type
       }
+    }, nextPage: function () {
+      if ((this.currentPage * this.pageSize) < this.naming.length) this.currentPage++;
+    },
+    prevPage: function () {
+      if (this.currentPage > 1) this.currentPage--;
+    }, sort: function (s) {
+      //if s == current sort, reverse
+      if (s === this.currentSort) {
+        this.currentSortDir = this.currentSortDir == 'asc' ? 'desc' : 'asc';
+      }
+      this.currentSort = s;
     }
+  },computed:{
+    sorted: function () {
 
-
+      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+      return this.naming.sort((a, b) => {
+        let modifier = 1;
+        if (this.currentSortDir === 'desc') modifier = -1;
+        if (a[this.currentSort] < b[this.currentSort]) return -1 * modifier;
+        if (a[this.currentSort] > b[this.currentSort]) return 1 * modifier;
+        return 0;
+      }).filter((row, index) => {
+        let start = (this.currentPage - 1) * this.pageSize;
+        let end = this.currentPage * this.pageSize;
+        if (index >= start && index < end) return true;
+      });
+    }
   }
 }
 

@@ -102,15 +102,15 @@ export default {
             console.log(this.formLogIn)
             console.log(datum)
             if(datum.data.msg == "Usuario fue encontrado con exito"){
-              this.authorized = true;
-              this.name_user = this.formLogIn.nombre_usuario
-              this.$router.push("/assigature");
-              this.name_user = this.formLogIn.nombre_usuario
+              this.$router.push("/assigature")
             }else{
               this.error = true;
               this.error_msg = "No hemos podido encontrarte :c";
             }
-          })
+          }).catch(()=>{
+        this.error = true;
+        this.error_msg = "Estamos trabajando para entregarte el 100%";
+      })
 
       /*fetch("https://api-1.azurewebsites.net/login")
           .then((response) => response.json())
