@@ -100,10 +100,14 @@ export default {
   }
   ,created() {
 
-    fetch(this.baseURL+"/inscripcion/listar")
+    fetch(this.inscriptionURL+"/inscripcion/listar")
         .then((response) => response.json())
         .then(data => (this.naming = data))
-        .then(console.log(this.naming));
+        .then(console.log(this.naming))
+        .catch(fetch(this.baseURL+"/inscripcion/listar")
+            .then((response) => response.json())
+            .then(data => (this.naming = data))
+            .then(console.log(this.naming)));
 
   },methods:{
       download(){
@@ -113,9 +117,11 @@ export default {
         console.log(data)
         exportXlsFile({data , fileName ,exportType})
       },detele() {
-        console.log(this.baseURL+'/inscripcion/eliminar/' + this.formData.id_estudiante+'/'+this.formData.id_materia)
+        console.log(this.inscriptionURL+'/inscripcion/eliminar/' + this.formData.id_estudiante+'/'+this.formData.id_materia)
         axios.delete(this.baseURL+'/inscripcion/eliminar/' + this.formData.id_estudiante+'/'+this.formData.id_materia)
             .then(datum => console.log(datum))
+            .catch( axios.delete(this.baseURL+'/inscripcion/eliminar/' + this.formData.id_estudiante+'/'+this.formData.id_materia)
+            .then(datum => console.log(datum)))
         setInterval("location.reload()",500);
       },save(data){
         this.formData.id_materia = data.id_materia
