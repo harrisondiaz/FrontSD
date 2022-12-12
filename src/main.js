@@ -9,8 +9,7 @@ import './assets/main.css'
 const Endpoint = {
     data(){
         return {
-            authorized : false,
-            name_user : '',
+            estudianteURL: 'https://naive-cup-production.up.railway.app',
             baseURL : 'https://back-end-sd-production.up.railway.app'
         }
     }

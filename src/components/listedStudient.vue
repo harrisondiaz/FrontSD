@@ -165,9 +165,12 @@ export default {
   }
   , created() {
 
-    fetch(this.baseURL + "/estudiante/listar")
+    fetch(this.estudianteURL + "/estudiante/listar")
         .then((response) => response.json())
         .then(response => (this.naming = response))
+        .catch(fetch(this.baseURL + "/estudiante/listar")
+            .then((response) => response.json())
+            .then(response => (this.naming = response)))
 
 
   }, methods: {
@@ -190,8 +193,10 @@ export default {
         this.formData.tipo_documento = 2
       }
       if (this.formData.id_estudiante !== '' && this.formData.nombre_estudiante !== '' && this.formData.apellido_estudiante !== '' && this.formData.tipo_documento !== '' && this.formData.estado !== '') {
-        axios.put(this.baseURL + '/estudiante/actualizar/' + this.data.id_estudiante, this.formData)
+        axios.put(this.estudianteURL + '/estudiante/actualizar/' + this.data.id_estudiante, this.formData)
             .then(data => console.log(data))
+            .catch( axios.put(this.baseURL + '/estudiante/actualizar/' + this.data.id_estudiante, this.formData)
+                .then(data => console.log(data)))
         setInterval("location.reload()", 500);
       } else {
         document.getElementById("empty").innerHTML = "<p class='text-danger display-7 text-center'>Falta rellenar algun campo <br> Recuerde rellenar todos los campos</p>";
@@ -200,8 +205,10 @@ export default {
       console.log(this.data)
       console.log(this.data.id_estudiante)
       console.log(this.baseURL + '/estudiante/eliminar/' + this.data.id_estudiante)
-      axios.delete(this.baseURL + '/estudiante/eliminar/' + this.data.id_estudiante)
+      axios.delete(this.estudianteURL + '/estudiante/eliminar/' + this.data.id_estudiante)
           .then(datum => console.log(datum))
+          .catch( axios.delete(this.baseURL + '/estudiante/eliminar/' + this.data.id_estudiante)
+              .then(datum => console.log(datum)))
       setInterval("location.reload()", 500);
     },
     save(e) {
