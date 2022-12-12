@@ -153,10 +153,14 @@ export default {
   }
   ,created() {
 
-    fetch(this.baseURL+"/materia/listar")
+    fetch(this.materiaURL+"/materia/listar")
         .then((response) => response.json())
         .then(data => (this.naming = data))
-        .then(console.log(this.naming));
+        .then(console.log(this.naming))
+        .catch(fetch(this.baseURL+"/materia/listar")
+        .then((response) => response.json())
+        .then(data => (this.naming = data))
+        .then(console.log(this.naming)))
 
   },methods:{
       download(){
@@ -171,7 +175,7 @@ export default {
         console.log(this.formData)
         this.formData.id_materia = this.formData.cod_materia;
         if(this.formData.cod_materia !=='' && this.formData.nombre_materia !== '' && this.formData.creditos !== 0 &&  this.formData.cupos !== 0 && this.formData.estado_materia !== '') {
-          axios.put(this.baseURL+'/materia/actualizar/' + this.data.cod_materia, this.formData)
+          axios.put(this.materiaURL+'/materia/actualizar/' + this.data.cod_materia, this.formData)
               .then(data => console.log(data))
               .catch(err => {
                 console.log(err)
@@ -186,7 +190,8 @@ export default {
                     "    Ups! Ocurrio algo inesperado por favor aguarte estamos revisando" +
                     "  </div>\n" +
                     "</div>"
-              })
+              }).catch(axios.put(this.baseURL+'/materia/actualizar/' + this.data.cod_materia, this.formData)
+              .then(data => console.log(data)))
               .finally(()=>{setInterval("location.reload()", 500); })
         }else{
           document.getElementById("empty").innerHTML="<p class='text-danger display-7 text-center'>Falta rellenar algun campo <br> Recuerde rellenar todos los campos</p>";
@@ -237,8 +242,9 @@ export default {
         }
       },
       detele() {
-        axios.delete(this.baseURL+'/materia/eliminar/' + this.formData.cod_materia, this.formData.cod_materia)
-            .then(datum => console.log(datum))
+        axios.delete(this.materiaURL+'/materia/eliminar/' + this.formData.cod_materia, this.formData.cod_materia)
+            .then(datum => console.log(datum)).catch(axios.delete(this.baseURL+'/materia/eliminar/' + this.formData.cod_materia, this.formData.cod_materia)
+            .then(datum => console.log(datum)))
         setInterval("location.reload()",500);
       },nextPage: function () {
       if ((this.currentPage * this.pageSize) < this.naming.length) this.currentPage++;
