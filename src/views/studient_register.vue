@@ -66,7 +66,7 @@ export default {
       createPost(){
         // eslint-disable-next-line no-constant-condition
         if(this.formData.id_estudiante !=='' && this.formData.nombre_estudiante !== '' && this.formData.apellido_estudiante !== '' &&  this.formData.tipo_documento !== '' && this.formData.estado !== '') {
-          axios.post(this.baseURL+'/estudiante/registrar', this.formData)
+          axios.post(this.estudianteURL+'/estudiante/registrar', this.formData)
             .then(data => {
               console.log(data)
               this.formData.id_estudiante = ''
@@ -75,13 +75,22 @@ export default {
               this.formData.tipo_documento = ''
               this.formData.estado = ''
             })
-              .catch(error => {
-                console.log(error)
-                document.getElementById("empty").innerHTML="<div class='alert alert-danger' role='alert'>" +
-                    "Algun(a) estudiante ya tiene este codigo" +
-                    "</div>"
-                document.getElementById("cod_estudiante").classList.add('is-invalid')
-              })
+              .catch( axios.post(this.baseURL+'/estudiante/registrar', this.formData)
+                  .then(data => {
+                    console.log(data)
+                    this.formData.id_estudiante = ''
+                    this.formData.nombre_estudiante = ''
+                    this.formData.apellido_estudiante = ''
+                    this.formData.tipo_documento = ''
+                    this.formData.estado = ''
+                  })
+                  .catch(error => {
+                    console.log(error)
+                    document.getElementById("empty").innerHTML="<div class='alert alert-danger' role='alert'>" +
+                        "Algun(a) estudiante ya tiene este codigo" +
+                        "</div>"
+                    document.getElementById("cod_estudiante").classList.add('is-invalid')
+                  }))
 
           console.log(this.formData)
           //setInterval("location.reload()", 500);

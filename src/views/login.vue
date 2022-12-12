@@ -97,7 +97,17 @@ export default {
   },
   methods:{
     logIn(){
-      axios.post(this.baseURL+'/login', this.formLogIn)
+      axios.post(this.loginURL+'/login', this.formLogIn)
+          .then( datum =>{
+            console.log(this.formLogIn)
+            console.log(datum)
+            if(datum.data.msg == "Usuario fue encontrado con exito"){
+              this.$router.push("/assigature")
+            }else{
+              this.error = true;
+              this.error_msg = "No hemos podido encontrarte :c";
+            }
+          }).catch(axios.post(this.baseURL+'/login', this.formLogIn)
           .then( datum =>{
             console.log(this.formLogIn)
             console.log(datum)
@@ -108,9 +118,9 @@ export default {
               this.error_msg = "No hemos podido encontrarte :c";
             }
           }).catch(()=>{
-        this.error = true;
-        this.error_msg = "Estamos trabajando para entregarte el 100%";
-      })
+            this.error = true;
+            this.error_msg = "Estamos trabajando para entregarte el 100%";
+          }))
 
       /*fetch("https://api-1.azurewebsites.net/login")
           .then((response) => response.json())

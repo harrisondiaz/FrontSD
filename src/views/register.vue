@@ -104,22 +104,29 @@ export default {
   },
   methods:{
     register(){
-            if(this.formLogIn.nombre_usuario != '' && this.formLogIn.password != ''){
+            if(this.formLogIn.nombre_usuario !== '' && this.formLogIn.password !== ''){
               axios.post(this.baseURL+'/registrar', this.formLogIn)
-                .then( datum =>{
-              console.log(datum)
+                  .then( datum =>{
+                    console.log(datum)
 
-               })
-              this.formLogIn.nombre_usuario = ''
-              this.formLogIn.password = ''
-              this.error = false
-              this.ready = true
-              this.ready_msg = '¡Usuario registrado! :3'
-          }else {
-              this.ready = false
-              this.error = true
-              this.error_msg = "Los campos no pueden ser vacios"
-            }
+                  }).catch(axios.post(this.baseURL+'/registrar', this.formLogIn)
+                  .then( datum =>{
+                    console.log(datum)
+
+                  }).catch(()=>{
+                    this.ready = false
+                    this.error = true
+                    this.error_msg = "Los campos no pueden ser vacios"
+                  })
+              ).finally(()=>{
+                this.formLogIn.nombre_usuario = ''
+                this.formLogIn.password = ''
+                this.error = false
+                this.ready = true
+                this.ready_msg = '¡Usuario registrado! :3'
+              })
+
+          }
     }
   }
 }

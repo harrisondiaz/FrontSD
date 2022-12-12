@@ -57,7 +57,7 @@ export default {
         this.formData.id_materia = this.formData.cod_materia
         console.log(this.formData)
         if(this.formData.cod_materia !=='' && this.formData.nombre_materia !== '' && this.formData.creditos !== '' &&  this.formData.cupos !== '' && this.formData.estado_materia !== '') {
-          axios.post(this.baseURL+'/materia/registrar', this.formData)
+          axios.post(this.materiaURL+'/materia/registrar', this.formData)
               .then(response => {
                 console.log(response)
                 this.formData.cod_materia = ''
@@ -66,15 +66,22 @@ export default {
                 this.formData.cupos = ''
                 this.formData.estado_materia = ''
               })
-              .catch(error => {
-                console.log(error)
-                document.getElementById("empty").innerHTML="<div class='alert alert-danger' role='alert'>" +
-                    "Alguna asignatura ya tiene este codigo" +
-                    "</div>"
-                document.getElementById("cod_materia").classList.add('is-invalid')
+              .catch(axios.post(this.baseURL+'/materia/registrar', this.formData)
+              .then(response => {
+                console.log(response)
+                this.formData.cod_materia = ''
+                this.formData.nombre_materia = ''
+                this.formData.creditos = ''
+                this.formData.cupos = ''
+                this.formData.estado_materia = ''
+              }).catch(error => {
+                    console.log(error)
+                    document.getElementById("empty").innerHTML="<div class='alert alert-danger' role='alert'>" +
+                        "Alguna asignatura ya tiene este codigo" +
+                        "</div>"
+                    document.getElementById("cod_materia").classList.add('is-invalid')
 
-
-              });
+                  }));
 
         }else{
           document.getElementById("empty").innerHTML="<p class='text-danger display-7 text-center'>Falta rellenar algun campo <br> Recuerde rellenar todos los campos</p>";

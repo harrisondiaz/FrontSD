@@ -12,6 +12,7 @@ const Endpoint = {
             estudianteURL: 'https://naive-cup-production.up.railway.app',
             materiaURL: 'https://materias-production.up.railway.app',
             inscriptionURL: 'https://inscripciones-production.up.railway.app',
+            loginURL: 'https://ususario-production.up.railway.app',
             baseURL : 'https://back-end-sd-production.up.railway.app'
         }
     }

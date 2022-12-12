@@ -57,25 +57,28 @@ export default {
         // eslint-disable-next-line no-constant-condition
           if(this.formData.cod_materia !=='' && this.formData.cod_materia!== '') {
             console.log(this.formData.data)
-          axios.post(this.baseURL+'/inscripcion/registrar', this.formData)
+          axios.post(this.inscriptionURL+'/inscripcion/registrar', this.formData)
               .then(response => {
                 console.log(response)
                 this.formData.id_materia = ''
                 this.formData.id_estudiante = ''
                 document.getElementById("empty").innerHTML="<p class='text-success display-7 text-center'>Inscripcion Realizada</p>";
               })
-              .catch(error =>{
-                console.log(error)
-                document.getElementById("empty").innerHTML="<div class='alert alert-danger' role='alert'>" +
-                    "Esta Inscripcion ya esta realizada" +
-                    "</div>"
-                document.getElementById("cod_materia").classList.add('is-invalid')
-                document.getElementById("id_estudiante").classList.add('is-invalid')
-
-
-              })
-        }else{
-
+              .catch(axios.post(this.baseURL+'/inscripcion/registrar', this.formData)
+                  .then(response => {
+                    console.log(response)
+                    this.formData.id_materia = ''
+                    this.formData.id_estudiante = ''
+                    document.getElementById("empty").innerHTML="<p class='text-success display-7 text-center'>Inscripcion Realizada</p>";
+                  })
+                  .catch(error =>{
+                    console.log(error)
+                    document.getElementById("empty").innerHTML="<div class='alert alert-danger' role='alert'>" +
+                        "Esta Inscripcion ya esta realizada" +
+                        "</div>"
+                    document.getElementById("cod_materia").classList.add('is-invalid')
+                    document.getElementById("id_estudiante").classList.add('is-invalid')
+                  }))
         }
       }
   }

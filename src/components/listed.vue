@@ -177,21 +177,22 @@ export default {
         if(this.formData.cod_materia !=='' && this.formData.nombre_materia !== '' && this.formData.creditos !== 0 &&  this.formData.cupos !== 0 && this.formData.estado_materia !== '') {
           axios.put(this.materiaURL+'/materia/actualizar/' + this.data.cod_materia, this.formData)
               .then(data => console.log(data))
-              .catch(err => {
-                console.log(err)
-                document.getElementById("empty").innerHTML = "<div class=\"toast\" role=\"alert\" aria-live=\"assertive\" aria-atomic=\"true\">\n" +
-                    "  <div class=\"toast-header\">\n" +
-                    "    <img src=\"...\" class=\"rounded me-2\" alt=\"...\">\n" +
-                    "    <strong class=\"me-auto\">Bootstrap</strong>\n" +
-                    "    <small class=\"text-muted\">11 mins ago</small>\n" +
-                    "    <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"toast\" aria-label=\"Close\"></button>\n" +
-                    "  </div>\n" +
-                    "  <div class=\"toast-body\">\n" +
-                    "    Ups! Ocurrio algo inesperado por favor aguarte estamos revisando" +
-                    "  </div>\n" +
-                    "</div>"
-              }).catch(axios.put(this.baseURL+'/materia/actualizar/' + this.data.cod_materia, this.formData)
-              .then(data => console.log(data)))
+              .catch(axios.put(this.baseURL+'/materia/actualizar/' + this.data.cod_materia, this.formData)
+                  .then(data => console.log(data))
+                  .catch(err => {
+                    console.log(err)
+                    document.getElementById("empty").innerHTML = "<div class=\"toast\" role=\"alert\" aria-live=\"assertive\" aria-atomic=\"true\">\n" +
+                        "  <div class=\"toast-header\">\n" +
+                        "    <img src=\"...\" class=\"rounded me-2\" alt=\"...\">\n" +
+                        "    <strong class=\"me-auto\">Bootstrap</strong>\n" +
+                        "    <small class=\"text-muted\">11 mins ago</small>\n" +
+                        "    <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"toast\" aria-label=\"Close\"></button>\n" +
+                        "  </div>\n" +
+                        "  <div class=\"toast-body\">\n" +
+                        "    Ups! Ocurrio algo inesperado por favor aguarte estamos revisando" +
+                        "  </div>\n" +
+                        "</div>"
+                  }))
               .finally(()=>{setInterval("location.reload()", 500); })
         }else{
           document.getElementById("empty").innerHTML="<p class='text-danger display-7 text-center'>Falta rellenar algun campo <br> Recuerde rellenar todos los campos</p>";
